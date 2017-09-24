@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ofhi.modules.cms.sys.dao.SysRolePermissionDao">
+    <resultMap id="result_SysRolePermission_Map" type="com.ofhi.modules.cms.sys.entity.pojo.SysRolePermission">
+        <id column="SysRolePermission0" property="id" />
+        <result column="SysRolePermission1" property="sysPermissionId" />
+        <result column="SysRolePermission2" property="sysRoleId" />
+        <result column="SysRolePermission3" property="createTime" />
+        <result column="SysRolePermission4" property="updateTime" />
+        <result column="SysRolePermission5" property="createBy" />
+        <result column="SysRolePermission6" property="updateBy" />
+    </resultMap>
+
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="sys_role_permission_Column">
+        sys_role_permission.id as SysRolePermission0
+        ,sys_role_permission.sys_permission_id as SysRolePermission1
+        ,sys_role_permission.sys_role_id as SysRolePermission2
+        ,sys_role_permission.create_time as SysRolePermission3
+        ,sys_role_permission.update_time as SysRolePermission4
+        ,sys_role_permission.create_by as SysRolePermission5
+        ,sys_role_permission.update_by as SysRolePermission6
+    </sql>
+
+    <select id="getSysRolePermissionRowCount" parameterType="com.ofhi.common.Assist" resultType="java.lang.Long">
+        select count(id) from sys_role_permission
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <select id="selectSysRolePermission" parameterType="com.ofhi.common.Assist" resultMap="result_SysRolePermission_Map">
+        select  <if test="distinct !=null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!=null">${resultColumn}</when>
+            <otherwise>
+        <include refid="sys_role_permission_Column" /> 
+            </otherwise>
+        </choose>
+        from sys_role_permission
+        <if test="require!=null"><include refid="Assist" /></if>
+        <if test="order !=null">${order}</if>
+        <if test="rowSize !=null"> LIMIT #{rowSize} <if test="startRow !=null"> OFFSET #{startRow}</if></if>
+    </select> 
+
+    <select id="selectSysRolePermissionById" parameterType="java.lang.Long" resultMap="result_SysRolePermission_Map">
+        select 
+            <include refid="sys_role_permission_Column" /> 
+        from sys_role_permission
+        where sys_role_permission.id = #{id}
+    </select> 
+
+
+    <insert id="insertSysRolePermission" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysRolePermission">
+        insert into sys_role_permission(id,sys_permission_id,sys_role_id,create_time,update_time,create_by,update_by) 
+        values(#{id},#{sysPermissionId},#{sysRoleId},#{createTime},#{updateTime},#{createBy},#{updateBy})
+    </insert>
+
+    <insert id="insertNonEmptySysRolePermission" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysRolePermission">
+        insert into sys_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="sysPermissionId != null">sys_permission_id,</if>
+            <if test="sysRoleId != null">sys_role_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="sysPermissionId != null"> #{sysPermissionId},</if>
+            <if test="sysRoleId != null"> #{sysRoleId},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="createBy != null"> #{createBy},</if>
+            <if test="updateBy != null"> #{updateBy},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteSysRolePermissionById" parameterType="java.lang.Long">
+        delete from sys_role_permission
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteSysRolePermission" parameterType="com.ofhi.common.Assist">
+        delete from sys_role_permission
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <update id="updateSysRolePermissionById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysRolePermission">
+        update sys_role_permission set
+            sys_permission_id=#{sysPermissionId}
+            ,sys_role_id=#{sysRoleId}
+            ,create_time=#{createTime}
+            ,update_time=#{updateTime}
+            ,create_by=#{createBy}
+            ,update_by=#{updateBy}
+        where id=#{id}
+    </update>
+
+    <update id="updateNonEmptySysRolePermissionById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysRolePermission">
+        update sys_role_permission
+        <set>
+            <if test="sysPermissionId != null">
+                sys_permission_id=#{sysPermissionId},
+            </if>
+            <if test="sysRoleId != null">
+                sys_role_id=#{sysRoleId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updateSysRolePermission" parameterType="map">
+        update sys_role_permission
+        <set>
+                id=#{enti.id},
+                sys_permission_id=#{enti.sysPermissionId},
+                sys_role_id=#{enti.sysRoleId},
+                create_time=#{enti.createTime},
+                update_time=#{enti.updateTime},
+                create_by=#{enti.createBy},
+                update_by=#{enti.updateBy},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <update id="updateNonEmptySysRolePermission" parameterType="map">
+        update sys_role_permission
+        <set>
+            <if test="enti.id != null">
+                id=#{enti.id},
+            </if>
+            <if test="enti.sysPermissionId != null">
+                sys_permission_id=#{enti.sysPermissionId},
+            </if>
+            <if test="enti.sysRoleId != null">
+                sys_role_id=#{enti.sysRoleId},
+            </if>
+            <if test="enti.createTime != null">
+                create_time=#{enti.createTime},
+            </if>
+            <if test="enti.updateTime != null">
+                update_time=#{enti.updateTime},
+            </if>
+            <if test="enti.createBy != null">
+                create_by=#{enti.createBy},
+            </if>
+            <if test="enti.updateBy != null">
+                update_by=#{enti.updateBy},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>
