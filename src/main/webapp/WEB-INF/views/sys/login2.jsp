@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Login</title>
-    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-minimal.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/silver/pace-theme-flat-top.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">

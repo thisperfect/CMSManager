@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-minimal.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/green/pace-theme-fill-left.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
     <%@ include file="../share/lib.jsp"%>
     <!-- CSS-->
@@ -230,6 +230,8 @@
 <script src="https://cdn.bootcss.com/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>--%>
 <link rel="stylesheet" type="text/css" href="${basePath}/plugins/jquery-confirm/css/jquery-confirm.css">
 <script src="${basePath}/plugins/jquery-confirm/js/jquery-confirm.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${basePath}/plugins/zTree/css/zTreeStyle/zTreeStyle.css">
+<script src="${basePath}/plugins/zTree/js/jquery.ztree.core.min.js"></script>
 <script>
     $(function () {
         findWeather('#weather');
