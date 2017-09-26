@@ -2,41 +2,35 @@ package com.ofhi.common.Listener;
 
 
 import com.ofhi.common.cache.shiro.CachingShiroSessionDao;
-import com.ofhi.common.cache.shiro.ShiroSessionService;
-import lombok.Setter;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class ShiroSessionListener implements SessionListener {
+public class ShiroSessionListener implements SessionListener  {
+    private static final Logger logger = LoggerFactory.getLogger(ShiroSessionListener.class);
 
-    private Logger log = LoggerFactory.getLogger(ShiroSessionListener.class);
-
-    @Setter
-    private ShiroSessionService shiroSessionService;
-
-    @Setter
+    @Autowired
     private CachingShiroSessionDao sessionDao;
 
     @Override
-    public void onStart( final Session session) {
+    public void onStart(Session session) {
         // 会话创建时触发
-        log.info("session {} onStart", session.getId());
+        logger.info("ShiroSessionListener session {} 被创建", session.getId());
     }
 
     @Override
-    public void onStop( final Session session) {
+    public void onStop(Session session) {
         sessionDao.delete(session);
-        shiroSessionService.sendUnCacheSessionMessage(session.getId());
-        log.info("session {} onStop", session.getId());
+        // 会话被停止时触发
+        logger.info("ShiroSessionListener session {} 被销毁", session.getId());
     }
 
     @Override
-    public void onExpiration( final Session session) {
+    public void onExpiration(Session session) {
         sessionDao.delete(session);
-        shiroSessionService.sendUnCacheSessionMessage(session.getId());
-        log.info("session {} onExpiration", session.getId());
+        //会话过期时触发
+        logger.info("ShiroSessionListener session {} 过期", session.getId());
     }
-
 }

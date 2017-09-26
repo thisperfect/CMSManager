@@ -82,7 +82,7 @@
     </div>
     <div class="row content">
         <div class="col-xs-12">
-            <div class="layui-btn-group">
+            <div class="layui-btn-group btn-block">
                 <button class="layui-btn layui-btn-primary layui-btn-small">
                     <i class="layui-icon">&#xe654;</i>新增
                 </button>
@@ -92,6 +92,12 @@
                 <button class="layui-btn layui-btn-primary layui-btn-small">
                     <i class="layui-icon">&#xe640;</i>删除
                 </button>
+                <button class="layui-btn layui-btn-primary layui-btn-small pull-right border-0px" role="button" id="table-setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-cog"></i>
+                </button>
+                <ul class="dropdown-menu postion-top-auto" aria-labelledby="table-setting">
+                    <li><a><i class="fa fa-home"></i> 一 </a></li>
+                </ul>
             </div>
             <table class="table" lay-filter="roleTable">
                 <thead>

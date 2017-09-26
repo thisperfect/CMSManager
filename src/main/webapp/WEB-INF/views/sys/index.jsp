@@ -102,7 +102,7 @@
             </div>
             <!-- Sidebar Menu-->
             <ul class="sidebar-menu">
-                <li class="active"><a href="#" id="bhome"><i class="fa fa-home fa-fw"></i><span>主 页</span></a></li>
+                <li class="active"><a href="/home.shtml" id="bhome"><i class="fa fa-home fa-fw"></i><span>主 页</span></a></li>
                 <li class="treeview"><a href="#"><i class="fa fa-th-list fa-fw"></i><span>基本元素</span><i class="fa fa-angle-right fa-fw"></i></a>
                     <ul class="treeview-menu">
                         <li><a href="pages/form.html" ><i class="fa fa-gavel fa-fw"></i>表单</a></li>
@@ -132,7 +132,7 @@
     <div class="content-wrapper">
         <div class="layui-tab layui-tab-card" lay-filter="left-tab-menu" lay-allowclose="true">
             <ul class="layui-tab-title" id="layui-tab-cs-menu">
-                <li class="layui-this" lay-id="bhome"><i class="fa fa-home fa-fw"></i>后台主页</li>
+                <li class="layui-this bhome" lay-id="bhome"><i class="fa fa-home fa-fw"></i>后台主页</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">

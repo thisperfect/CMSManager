@@ -6,11 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ofhi.common.cache.shiro.ShiroSessionService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,32 +25,8 @@ public  class BaseController {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	protected final Long session_time_out = 18000L;
-
-	protected final String validation_code = "validationCode";
-
-    @Autowired
-    private ShiroSessionService shiroSessionService;
-
-    protected void setSession(Object objKey, Object objVal) {
-        shiroSessionService.setAttribute(objKey, objVal);
-    }
-
-    protected void setSession(Object objKey, Object objVal, Long timeOut) {
-        shiroSessionService.setAttribute(objKey, objVal);
-        shiroSessionService.setTimeout(timeOut);
-    }
-
-    protected Object getSessionValue(Object objKey) {
-       return shiroSessionService.getAttribute(objKey);
-    }
-
-    protected void removeSession(Object objKey) {
-        shiroSessionService.removeAttribute(objKey);
-    }
-
     protected Object getCurrentSessionId() {
-        return shiroSessionService.getId();
+        return  SecurityUtils.getSubject().getSession().getId();
     }
 
     @ResponseBody

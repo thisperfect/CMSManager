@@ -16,10 +16,13 @@ public class RedisUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
-    /**30分钟默认超时超时时间，秒**/
+    /**
+     * 30分钟默认超时超时时间，秒
+     **/
     public static final int REDIS_TIME_OUT = 1800;
 
-    private RedisUtil() {}
+    private RedisUtil() {
+    }
 
     //Redis服务器IP
     private static String ADDR = ProjectUtils.getProperty("redis.host", "localhost");
@@ -63,6 +66,10 @@ public class RedisUtil {
         }
     }
 
+    public static Jedis getJedis() {
+      return   jedisPool.getResource();
+    }
+
     /**
      * 获取redis键值-object
      *
@@ -75,8 +82,34 @@ public class RedisUtil {
             jedis = jedisPool.getResource();
             byte[] bytes = jedis.get(key.getBytes());
             if (bytes != null && bytes.length > 0) {
-                return SerializerUtil.deserializeObj(bytes);
+                return SerializeUtils.deserializeObj(bytes);
             }
+        } catch (Exception e) {
+            logger.error("getObject获取redis键值异常:key={} cause:{}", key, e.getMessage());
+        } finally {
+            close(jedis);
+        }
+        return null;
+    }
+
+
+    public static void expire(String key, int time) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            jedis.expire(key, time);
+        } catch (Exception e) {
+            logger.error("重置过期时间出错，key:{}, error:{}", key, e.getMessage());
+        } finally {
+            close(jedis);
+        }
+    }
+
+    public static Long getTtl(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.ttl(key);
         } catch (Exception e) {
             logger.error("getObject获取redis键值异常:key={} cause:{}", key, e.getMessage());
         } finally {
@@ -97,7 +130,7 @@ public class RedisUtil {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            return jedis.set(key.getBytes(), SerializerUtil.serializeObj(value));
+            return jedis.set(key.getBytes(), SerializeUtils.serializeObj(value));
         } catch (Exception e) {
             logger.error("setObject设置redis键值异常:key={}, cause:", key, e.getMessage());
             return null;
@@ -108,6 +141,7 @@ public class RedisUtil {
 
     /**
      * 设置redis 30分钟后消失
+     *
      * @param key
      * @param value
      * @return
@@ -117,7 +151,7 @@ public class RedisUtil {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            result = jedis.set(key.getBytes(), SerializerUtil.serializeObj(value));
+            result = jedis.set(key.getBytes(), SerializeUtils.serializeObj(value));
             if ("OK".equals(result)) {
                 jedis.expire(key.getBytes(), REDIS_TIME_OUT);
             }
@@ -132,6 +166,7 @@ public class RedisUtil {
 
     /**
      * 设置redis
+     *
      * @param key
      * @param value
      * @param expiretime 超时时间，单位：秒
@@ -142,7 +177,7 @@ public class RedisUtil {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            result = jedis.set(key.getBytes(), SerializerUtil.serializeObj(value));
+            result = jedis.set(key.getBytes(), SerializeUtils.serializeObj(value));
             if ("OK".equals(result)) {
                 jedis.expire(key.getBytes(), expiretime);
             }
@@ -173,6 +208,7 @@ public class RedisUtil {
 
     /**
      * 检查key是否存在
+     *
      * @param key
      * @return 存在返回true，不存在返回false
      */
@@ -191,9 +227,10 @@ public class RedisUtil {
 
     /**
      * 关闭资源
+     *
      * @param jedis
      */
-    private static void close(Jedis jedis) {
+    public static void close(Jedis jedis) {
         if (jedis != null) {
             jedis.close();
         }

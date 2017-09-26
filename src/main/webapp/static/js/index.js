@@ -24,6 +24,8 @@ layui.use([ 'element'], function(){
             element.tabChange(this.el, _id);
         }
     };
+
+    /**点击菜单行为**/
     $('ul.sidebar-menu li a[href!="#"]').click(function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -72,9 +74,25 @@ layui.use([ 'element'], function(){
     });
 });
 
+/**
+ *
+ * @date 2017-09-26
+ * @autor laiz
+ * 点击菜单添加主体内容，如果已经打开则切换到相应的选项卡中
+ * @param $this 菜单按钮DOM
+ * @param reset 是否刷新内容，true 为点导航进来，false 右键刷新选项卡进来
+ * @param $content 添加的内容
+ * @returns {boolean}
+ */
 var addContent = function ($this,reset, $content) {
+    var _id = $this.attr('id');
     var _url = $this.attr('href');
-    var _id = _url.replace(/\./g, '').replace(/\//g, '_').replace(/\?/g, '_').replace(/,/g, '_').replace(/=/g, '_').replace(/&/g, '_');
+    if (_id === '' || _id === null || _id === undefined) {
+        _id =  _url.replace(/\./g, '').replace(/\//g, '_').replace(/\?/g, '_').replace(/,/g, '_').replace(/=/g, '_').replace(/&/g, '_');
+    } else if (_id === 'bhome') {
+        active.tabChange(_id);
+        return false;
+    }
     if ((reset) && $('ul#layui-tab-cs-menu li[lay-id='+ _id +']').length > 0) {
         active.tabChange(_id);
         return false;

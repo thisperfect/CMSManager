@@ -226,6 +226,7 @@ var alertMessage = {
         $.confirm(_option);
     },
     autoConfirm:function (_content, _confirmBtnName, _callback) {
+        _confirmBtnName = _confirmBtnName || '确定';
         var defaults =   {
             backgroundDismiss:true,
             title: '消息提示',
@@ -240,7 +241,7 @@ var alertMessage = {
             autoClose: 'btnOk|5000' ,
             buttons: {
                 btnOk: {
-                    text:  '确定' || _confirmBtnName,
+                    text:  _confirmBtnName ,
                     btnClass: 'btn-info',
                     keys: ['enter'],
                     action:function () {

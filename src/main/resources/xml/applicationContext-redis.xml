@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:redis="http://www.springframework.org/schema/redis"
 	xsi:schemaLocation="
-	http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Redis 配置 -->
@@ -15,32 +13,9 @@
 	</bean>
 
 	<!-- redis单节点数据库连接配置 -->
-	<bean id="jedisFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+	<!--<bean id="jedisFactory" class="com.ofhi.common.util.RedisUtil">
 		<property name="hostName" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
 		<property name="poolConfig" ref="jedisPoolConfig" />
-	</bean>
-	<!-- the default ConnectionFactory -->
-	<bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-
-	<!-- redisTemplate配置，redisTemplate是对Jedis的对redis操作的扩展，有更多的操作，封装使操作更便捷 -->
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-		<property name="connectionFactory" ref="jedisFactory" />
-		 <!--定义默认的序列化策略-->
-        <property name="defaultSerializer">
-           	<ref bean="jdkSerializer"/>
-        </property>
-        <!--定义key默认序列化策略-->
-        <property name="keySerializer">
-            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
-        </property>
-        <!--定义value默认策略-->
-        <property name="valueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
-        </property>
-	</bean>
-	<redis:listener-container connection-factory="jedisFactory">
-		<!-- the method attribute can be skipped as the default method name is "handleMessage" -->
-		<redis:listener ref="shiroSessionService" topic="shiro.session.uncache"  serializer="jdkSerializer"/>
-	</redis:listener-container>
+	</bean>-->
 </beans>

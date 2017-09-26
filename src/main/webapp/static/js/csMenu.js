@@ -7,11 +7,13 @@ var csMenu = {
        return $('div.content-wrapper > div.layui-tab-card div.layui-tab-content div.layui-show');
     },
     refresh: function () {
-        var _id = csMenu.getCurrentTabId();
-        if ('bhome' === _id) {
-            return;
-        }
-        addContent($('#' + _id), false, csMenu.getCurrentTabContent());
+        setTimeout(function () {
+            var _id = csMenu.getCurrentTabId();
+            if ('bhome' === _id) {
+                return;
+            }
+            addContent($('#' + _id), false, csMenu.getCurrentTabContent());
+        },50);
     },
     close: function () {
         var _id = csMenu.getCurrentTabId();

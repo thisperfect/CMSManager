@@ -27,6 +27,12 @@
 .width-100 {
     width:100%
 }
+.border-0px {
+    border: 0px;
+}
+.postion-top-auto {
+    top: auto;
+}
 /** 重置结束 **/
 
 /*操作成功提示*/
@@ -186,6 +192,9 @@
     border-radius: 6px;
     margin-top: 5px;
 
+}
+#layui-tab-cs-menu li.bhome i.layui-tab-close {
+    display: none;
 }
 /*主页样式结束*/
 

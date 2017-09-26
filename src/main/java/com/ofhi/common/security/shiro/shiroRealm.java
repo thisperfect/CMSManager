@@ -2,6 +2,8 @@ package com.ofhi.common.security.shiro;
 
 import com.ofhi.common.Constant;
 import com.ofhi.common.Assist;
+import com.ofhi.common.cache.shiro.CachingShiroSessionDao;
+import com.ofhi.common.cache.shiro.ShiroSession;
 import com.ofhi.common.user.UserActive;
 import com.ofhi.common.user.UserConst;
 import com.ofhi.modules.cms.sys.entity.bind.UserBind;
@@ -15,6 +17,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
@@ -38,8 +42,10 @@ public class shiroRealm extends AuthorizingRealm {
 	@Autowired
 	private SysPermissionService sysPermissionService;
 	
+
+
 	@Autowired
-	private RedisTemplate<Object, Object> redisTemplate;
+	private CachingShiroSessionDao sessionDao;
 
 	/**
 	 * 权限认证
@@ -83,19 +89,14 @@ public class shiroRealm extends AuthorizingRealm {
 			throw new LockedAccountException();
 		}
 		/*UserActive userActive = UserBind.toActive(user);*/
-		return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(),ByteSource.Util.bytes(UserConst.PASSWORD_SALT), getName());
-	}
-	
-	@Override
-	protected void doClearCache(PrincipalCollection principals) {
-		String key = Constant.shiro_cache_prefix + principals.getPrimaryPrincipal().toString();
-		log.debug("===> doClearCache：{}",key);
-		redisTemplate.delete(key);
-	}
 
-	@Override
-	protected void clearCachedAuthorizationInfo(PrincipalCollection principals) {
-		log.debug("===> clearCachedAuthorizationInfo");
+		Subject subject = SecurityUtils.getSubject();
+		Serializable sessionId = subject.getSession().getId();
+		ShiroSession session = (ShiroSession) sessionDao.doReadSessionWithoutExpire(sessionId);
+		session.setAttribute("userId", user.getId());
+		session.setAttribute("loginName", user.getLoginName());
+		sessionDao.update(session);
+		return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(),ByteSource.Util.bytes(UserConst.PASSWORD_SALT), getName());
 	}
 	
 }

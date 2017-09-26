@@ -8,14 +8,7 @@ public class ShiroSessionFactory implements SessionFactory {
 
     @Override
     public Session createSession(SessionContext initData) {
-
-        if (initData != null) {
-            String host = initData.getHost();
-            if (host != null) {
-                return new ShiroSession(host);
-            }
-        }
-
-        return new ShiroSession();
+        ShiroSession session = new ShiroSession();
+        return session;
     }
 }

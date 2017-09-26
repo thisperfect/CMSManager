@@ -8,21 +8,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-
 /**
  * 由于SimpleSession lastAccessTime更改后也会调用SessionDao update方法，
  * 增加标识位，如果只是更新lastAccessTime SessionDao update方法直接返回
- * <p>
- * Session Attribute
- * DefaultSubjectContext.PRINCIPALS_SESSION_KEY 保存 principal
- * DefaultSubjectContext.AUTHENTICATED_SESSION_KEY 保存 boolean是否登陆
- *
- * @see org.apache.shiro.subject.support.DefaultSubjectContext
  */
-@SuppressWarnings("WeakerAccess")
-public class ShiroSession extends SimpleSession implements Serializable {
+public class ShiroSession extends SimpleSession implements Serializable  {
 
-    // 除lastAccessTime以外其他字段发生改变时为true
     @Getter
     @Setter
     private boolean isChanged;
@@ -39,65 +30,49 @@ public class ShiroSession extends SimpleSession implements Serializable {
 
 
     @Override
-    public void setId( final Serializable id) {
+    public void setId(Serializable id) {
         super.setId(id);
         this.setChanged(true);
     }
 
     @Override
-    public void setStopTimestamp( final Date stopTimestamp) {
+    public void setStopTimestamp(Date stopTimestamp) {
         super.setStopTimestamp(stopTimestamp);
         this.setChanged(true);
     }
 
     @Override
-    public void setExpired(final boolean expired) {
+    public void setExpired(boolean expired) {
         super.setExpired(expired);
         this.setChanged(true);
     }
 
     @Override
-    public void setTimeout(final long timeout) {
+    public void setTimeout(long timeout) {
         super.setTimeout(timeout);
         this.setChanged(true);
     }
 
     @Override
-    public void setHost( final String host) {
+    public void setHost(String host) {
         super.setHost(host);
         this.setChanged(true);
     }
 
     @Override
-    public void setAttributes( final Map<Object, Object> attributes) {
+    public void setAttributes(Map<Object, Object> attributes) {
         super.setAttributes(attributes);
         this.setChanged(true);
     }
 
     @Override
-    public void setLastAccessTime( final Date lastAccessTime) {
-        if (getLastAccessTime() != null) {
-            long last = getLastAccessTime().getTime();
-            long now = lastAccessTime.getTime();
-            //如果60s内访问 则不更新session,否则需要更新远端过期时间
-            if ((last - now) / 1000 >= 60) {
-                //发送通知
-                //设置为已改变，更新到redis
-                this.setChanged(true);
-            }
-        }
-        super.setLastAccessTime(lastAccessTime);
-    }
-
-
-    @Override
-    public void setAttribute( final Object key, final Object value) {
+    public void setAttribute(Object key, Object value) {
         super.setAttribute(key, value);
         this.setChanged(true);
     }
 
     @Override
-    public Object removeAttribute( final Object key) {
+    public Object removeAttribute(Object key) {
         this.setChanged(true);
         return super.removeAttribute(key);
     }
@@ -118,5 +93,27 @@ public class ShiroSession extends SimpleSession implements Serializable {
     protected void expire() {
         this.stop();
         this.setExpired(true);
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    protected boolean onEquals(SimpleSession ss) {
+        return super.onEquals(ss);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

@@ -1,17 +1,17 @@
 package com.ofhi.modules.cms.sys.controller;
 
-import com.ofhi.common.base.BaseController;
-import com.ofhi.common.response.ResponseCode;
-import com.ofhi.common.security.DES;
-import com.ofhi.common.util.RedisUtil;
-import com.ofhi.common.util.StringHelper;
 import com.ofhi.common.Assist;
+import com.ofhi.common.base.BaseController;
 import com.ofhi.common.exception.RequestErrorException;
 import com.ofhi.common.response.InterfaceResult;
+import com.ofhi.common.response.ResponseCode;
+import com.ofhi.common.security.DES;
 import com.ofhi.common.security.MD5;
 import com.ofhi.common.security.ValidationCodeUtils;
 import com.ofhi.common.user.UserConst;
 import com.ofhi.common.user.UserHelper;
+import com.ofhi.common.util.RedisUtil;
+import com.ofhi.common.util.StringHelper;
 import com.ofhi.modules.cms.sys.entity.pojo.SysUser;
 import com.ofhi.modules.cms.sys.entity.vo.UserLogin;
 import com.ofhi.modules.cms.sys.entity.vo.UserRegister;
@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/system")
