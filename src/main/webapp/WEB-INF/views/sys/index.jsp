@@ -118,6 +118,7 @@
                 <li class="treeview"><a href="#"><i class="fa fa-share fa-fw"></i><span>组件</span><i class="fa fa-angle-right fa-fw"></i></a>
                     <ul class="treeview-menu">
                         <li><a href="../system/icon.shtml" title="图标" icon="fa fa-anchor fa-fw"><i class="fa fa-anchor fa-fw"></i>图标</a></li>
+                        <li><a href="../employees/list.shtml" title="员工列表" icon="fa flag-checkered fw"><i class="fa flag-checkered fw"></i>员工列表</a></li>
                         <li class="treeview"><a href="#"><i class="fa fa-calendar fa-fw"></i><span>搜索</span><i class="fa fa-angle-right fa-fw"></i></a>
                             <ul class="treeview-menu">
                                 <li><a href="blank-page.html"><i class="fa fa-cogs fa-fw"></i>百度</a></li>

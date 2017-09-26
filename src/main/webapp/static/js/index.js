@@ -42,12 +42,13 @@ layui.use([ 'element'], function(){
     //窗体改变大小的时候，内容主体高度随之改变
     $(window).on('resize',function() {
         var _height =  $(window).height();
-       var _hrader = _height - $(".main-header").height();
+
         $('div.layui-tab-content').height(_height - 122);
         setting.height = _height;
         setting.width = $(window).width();
-        $('.sidebar').height(_hrader);
-        $('.slimScrollDiv').height(_hrader);
+        var sidebar_height = _height - $(".main-header").height();
+        $('.sidebar').height(sidebar_height);
+        $('.slimScrollDiv').height(sidebar_height);
     }).resize();
 
     /***全屏事件***/

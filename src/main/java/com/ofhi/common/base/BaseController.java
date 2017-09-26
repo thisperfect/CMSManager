@@ -21,9 +21,9 @@ import com.ofhi.common.util.StringHelper;
 
 public  class BaseController {
 
-    protected  final String produces = "application/json;charset=UTF-8";
+    protected static final String produces = "application/json;charset=UTF-8";
 	
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	protected   final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Object getCurrentSessionId() {
         return  SecurityUtils.getSubject().getSession().getId();

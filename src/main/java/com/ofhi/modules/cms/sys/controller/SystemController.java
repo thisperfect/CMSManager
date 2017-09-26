@@ -52,7 +52,7 @@ public class SystemController extends BaseController {
         if (subject.isAuthenticated() || subject.isRemembered()) {
            return "redirect:/user/index.shtml";
         }
-		return "sys/login2";
+		return "sys/login";
 	}
 
     /**
