@@ -1,11 +1,21 @@
 package com.ofhi.common.response;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
 
 public class InterfaceResult {
 
+    @Getter
+    @Setter
     private int code = ResponseCode.success.getCode();
+
+    @Getter
+    @Setter
     private String msg = ResponseCode.success.getMsg();
+
+    @Getter
+    @Setter
     private Object result;
 
     private InterfaceResult() {}
@@ -41,27 +51,4 @@ public class InterfaceResult {
         return String.format("{\"code\":\"%s\", \"msg\":\"%s\", \"result\":%s}", code, msg, result == null ? null : JSONObject.toJSONString(result));
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
-    }
 }

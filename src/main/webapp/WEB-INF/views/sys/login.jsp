@@ -282,7 +282,6 @@
                 dataType: "JSON",
                 async: false,
                 success: function (result) {
-                    console.log(result);
                     if (result.code != '10000') {
                         btnLoading.reset($btn);
                         createErrorMessage($select, result.msg);

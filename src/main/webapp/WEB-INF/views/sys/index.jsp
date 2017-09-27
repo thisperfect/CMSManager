@@ -214,25 +214,25 @@
 <!-- 成功提示结束 -->
 
 <!-- Javascripts-->
-<%--<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
-<script src="${basePath}/plugins/jquery/dist/jquery.min.js"></script>
-<script src="${basePath}/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+<%@ include file="../share/cdn.jsp"%>
+<%--<%@ include file="../share/js.jsp"%>--%>
+<%--layui 插件开始--%>
 <script src="${basePath}/plugins/layui/layui.js"></script>
-<%--<script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>--%>
-<script src="${basePath}/plugins/vue2.4.2/vue.js"></script>
-<script src="${basePath}/plugins/vue2.4.2/vue-resource.min.js"></script>
-<script src="${basePath}/static/js/common.js"></script>
+<%--菜单js--%>
 <script src="${basePath}/static/js/main.js"></script>
+<%--公用组件js--%>
+<script src="${basePath}/static/js/common.js"></script>
+<%--时间js--%>
 <script src="${basePath}/static/js/now.time.js"></script>
+<%--主页js--%>
 <script src="${basePath}/static/js/index.js"></script>
+<%--右键菜单js--%>
 <script src="${basePath}/static/js/csMenu.js"></script>
-<%--<link href="https://cdn.bootcss.com/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>--%>
-<link rel="stylesheet" type="text/css" href="${basePath}/plugins/jquery-confirm/css/jquery-confirm.css">
-<script src="${basePath}/plugins/jquery-confirm/js/jquery-confirm.min.js"></script>
-<link rel="stylesheet" type="text/css" href="${basePath}/plugins/zTree/css/zTreeStyle/zTreeStyle.css">
-<script src="${basePath}/plugins/zTree/js/jquery.ztree.core.min.js"></script>
+<script src="${basePath}/static/js/tableExport.js"></script>
+<script src="${basePath}/static/js/jquery.base64.js"></script>
+<script src="${basePath}/static/js/base64.js"></script>
+<script src="${basePath}/static/js/jspdf.js"></script>
+<script src="${basePath}/static/js/sprintf.js"></script>
 <script>
     $(function () {
         findWeather('#weather');

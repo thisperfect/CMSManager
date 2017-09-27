@@ -94,7 +94,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setLoginName(username);
         sysUser.setEmail(email);
         sysUser = sysUserDao.selectOne(sysUser);
-        if (null == sysUser) {
+        if (null != sysUser) {
             String msg = "";
             if (UserConst.ACCOUNT_STATUS_DISABLED.equals(sysUser.getStatus())) {
                 msg += "账号被禁用，不能注册!";

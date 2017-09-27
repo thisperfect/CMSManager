@@ -130,7 +130,8 @@ public class SystemController extends BaseController {
         logger.info("===> checkAccount,username:{},email:{}", username, email);
         try {
             sysUserService.checkUsernameAndEmailExists(username, email);
-            return InterfaceResult.getSuccess().toString();
+            String s = InterfaceResult.getSuccess().toString();
+            return s;
         } catch (RequestErrorException e) {
             return InterfaceResult.getErrorResult(e.getErrCode(), e.getErrMsg()).toString();
         }

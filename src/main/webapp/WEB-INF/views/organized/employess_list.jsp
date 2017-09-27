@@ -20,7 +20,7 @@
             <fieldset class="fieldset">
                 <legend class="legend">检索</legend>
                 <div class="col-xs-12">
-                    <form onsubmit="" class="advanced-search" role="form" action="" method="post" id="pagerForm" >
+                    <form onsubmit="" class="advanced-search" role="form" action="" method="post" id="roleForm" >
                         <div class="dropdown pull-left p-0">
                             <button class="btn btn-default dropdown-toggle pull-right" type="button" id="advanced-box" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 高级搜索&nbsp;<span class="caret"></span>
@@ -89,8 +89,8 @@
     </div>
     <div class="row content">
         <div class="col-xs-12">
-            <div class="layui-btn-group btn-block">
-                <button class="layui-btn layui-btn-primary layui-btn-small">
+            <div class="layui-btn-group btn-block" id="roleBar">
+                <button class="layui-btn layui-btn-primary layui-btn-small" id="add">
                     <i class="layui-icon">&#xe654;</i>新增
                 </button>
                 <button class="layui-btn layui-btn-primary layui-btn-small">
@@ -106,16 +106,16 @@
                     <li><a><i class="fa fa-home"></i> 一 </a></li>
                 </ul>
             </div>
-            <table  class="layui-table" lay-filter="test">
+            <table   data-toggle="table" id="roleTable">
                 <thead>
-                <tr  class="success">
-                    <th lay-data="{field:'id', width:100, sort: true}">序号</th>
-                    <th lay-data="{field:'empNo', width:150, sort: true}">编号</th>
-                    <th lay-data="{field:'firstName', width:150}">姓氏</th>
-                    <th lay-data="{field:'lastName', width:150}">名称</th>
-                    <th lay-data="{field:'gender', width:100}">性别</th>
-                    <th lay-data="{field:'birthDate', width:150}">生日</th>
-                    <th lay-data="{field:'hireDate', width:150}">入职日期</th>
+                <tr >
+                    <th >序号</th>
+                    <th >编号</th>
+                    <th >姓氏</th>
+                    <th >名称</th>
+                    <th >性别</th>
+                    <th >生日</th>
+                    <th >入职日期</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -135,13 +135,71 @@
         </div>
     </div>
     <div class="row fooget">
-        <div class="col-xs-12">
+        <div class="col-xs-12" id="rolePage">
 
         </div>
     </div>
 </div>
 <script>
-    layui.use([ 'laypage', 'table','laydate'], function(){
+   $(function () {
+       $('#roleTable').bootstrapTable({
+           url: '../employees/list.shtml',         //请求后台的URL（*）
+           method: 'post',                      //请求方式（*）
+           toolbar: '#roleBar',                //工具按钮用哪个容器
+           striped: true,                      //是否显示行间隔色
+           cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+           pagination: true,                   //是否显示分页（*）
+           sortable: false,                     //是否启用排序
+           sortOrder: "asc",                   //排序方式
+           queryParams: $('#roleForm').serialize(),//传递参数（*）
+           sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+           pageNumber:1,                       //初始化加载第一页，默认第一页
+           pageSize: 10,                       //每页的记录行数（*）
+           pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+           strictSearch: true,
+           clickToSelect: true,                //是否启用点击选中行
+           height: 460,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+           uniqueId: "empNo",                     //每一行的唯一标识，一般为主键列
+           cardView: false,                    //是否显示详细视图
+           detailView: false,                   //是否显示父子表
+           minimumCountColumns: 2,             //最少允许的列数
+           search: true,  //是否显示搜索框功能
+           showRefresh: true, //是否显示刷新功能
+           showToggle: true,
+           showColumns: true,
+           //iconSize: 'outline',
+           showExport: true,  //是否显示导出按钮
+           exportTypes:['excel','pdf'],  //导出文件类型
+           icons: {
+               export:'fa fa-external-link fa-fw',
+               refresh: 'fa fa-repeat fa-fw',
+               toggle: 'fa fa-columns fa-fw',
+               columns: 'fa fa-angle-double-down fa-fw'
+           },
+           columns: [{
+                   checkbox: true
+               },{
+               field: 'empNo',
+               title: '编号'
+           }, {
+               field: 'firstName',
+               title: '姓氏'
+           }, {
+               field: 'lastName',
+               title: '名字'
+           }, {
+               field: 'gender',
+               title: '性别'
+           }, {
+               field: 'birthDate',
+               title: '出生日期'
+           }, {
+               field: 'hireDate',
+               title: '入职日期'
+           }]
+       });
+   })
+   /* layui.use([ 'laypage', 'table','laydate'], function(){
         var laypage = layui.laypage
             ,table = layui.table
             ,laydate = layui.laydate;
@@ -164,7 +222,7 @@
         });
 
 
-        /* table.on('tool(roleOperationBtn)', function(obj){
+        /!* table.on('tool(roleOperationBtn)', function(obj){
          var data = obj.data
          ,layEvent = obj.event;
          if(layEvent === 'detail'){
@@ -177,17 +235,22 @@
          } else if(layEvent === 'edit'){
 
          }
-         });*/
+         });*!/
         laypage.render({
             elem: 'rolePage'
             ,count: 100
             ,skin: '#1E9FFF'
-            //,skip: true
+            ,prev:'上一页'
+            ,next:'下一页 '
+            ,first:'首页'
+            ,last:'末页'
+            ,limits:[10,20,40,80,160]
+            ,layout:['prev', 'page', 'next','count','skip','limit']
             ,jump: function(obj, first){
                 if(!first){
                     layer.msg('第'+ obj.curr +'页');
                 }
             }
         });
-    });
+    });*/
 </script>
