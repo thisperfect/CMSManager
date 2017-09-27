@@ -38,7 +38,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">选择框</label>
                                         <div class="input-block">
-                                            <select name="" >
+                                            <select name="">
                                                 <option value=""></option>
                                                 <option value="0">北京</option>
                                                 <option value="1">上海</option>
@@ -106,22 +106,21 @@
                     <li><a><i class="fa fa-home"></i> 一 </a></li>
                 </ul>
             </div>
-            <table   data-toggle="table" id="roleTable">
+            <table id="roleTable">
                 <thead>
                 <tr >
-                    <th >序号</th>
-                    <th >编号</th>
-                    <th >姓氏</th>
-                    <th >名称</th>
-                    <th >性别</th>
-                    <th >生日</th>
-                    <th >入职日期</th>
+                    <th>编号</th>
+                    <th>姓氏</th>
+                    <th>名称</th>
+                    <th>性别</th>
+                    <th>生日</th>
+                    <th>入职日期</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${pageInfo.list}" varStatus="i">
                     <tr>
-                        <th>${i.index}</th>
+                        <td>${i.index}</td>
                         <td>${item.empNo}</td>
                         <td>${item.firstName}</td>
                         <td>${item.lastName}</td>
@@ -141,7 +140,8 @@
     </div>
 </div>
 <script>
-   $(function () {
+   layui.use([ 'laydate'], function(){
+
        $('#roleTable').bootstrapTable({
            url: '../employees/list.shtml',         //请求后台的URL（*）
            method: 'post',                      //请求方式（*）
@@ -158,7 +158,7 @@
            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
            strictSearch: true,
            clickToSelect: true,                //是否启用点击选中行
-           height: 460,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+           height: setting.height - 240,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
            uniqueId: "empNo",                     //每一行的唯一标识，一般为主键列
            cardView: false,                    //是否显示详细视图
            detailView: false,                   //是否显示父子表
@@ -177,8 +177,8 @@
                columns: 'fa fa-angle-double-down fa-fw'
            },
            columns: [{
-                   checkbox: true
-               },{
+               checkbox: true
+           },{
                field: 'empNo',
                title: '编号'
            }, {
@@ -198,18 +198,13 @@
                title: '入职日期'
            }]
        });
-   })
-   /* layui.use([ 'laypage', 'table','laydate'], function(){
-        var laypage = layui.laypage
-            ,table = layui.table
-            ,laydate = layui.laydate;
 
+        var laydate = layui.laydate;
         laydate.render({
             elem: '#date1'
             ,type: 'datetime'
             ,calendar: true
         });
-
         //日期范围
         laydate.render({
             elem: '#date2'
@@ -217,40 +212,5 @@
             ,calendar: true
         });
 
-        table.init('test', {
-
-        });
-
-
-        /!* table.on('tool(roleOperationBtn)', function(obj){
-         var data = obj.data
-         ,layEvent = obj.event;
-         if(layEvent === 'detail'){
-
-         } else if(layEvent === 'del'){
-         layer.confirm('真的删除行么', function(index){
-         obj.del();
-
-         });
-         } else if(layEvent === 'edit'){
-
-         }
-         });*!/
-        laypage.render({
-            elem: 'rolePage'
-            ,count: 100
-            ,skin: '#1E9FFF'
-            ,prev:'上一页'
-            ,next:'下一页 '
-            ,first:'首页'
-            ,last:'末页'
-            ,limits:[10,20,40,80,160]
-            ,layout:['prev', 'page', 'next','count','skip','limit']
-            ,jump: function(obj, first){
-                if(!first){
-                    layer.msg('第'+ obj.curr +'页');
-                }
-            }
-        });
-    });*/
+    });
 </script>

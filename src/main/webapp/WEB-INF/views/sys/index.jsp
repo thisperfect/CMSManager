@@ -214,8 +214,8 @@
 <!-- 成功提示结束 -->
 
 <!-- Javascripts-->
-<%@ include file="../share/cdn.jsp"%>
-<%--<%@ include file="../share/js.jsp"%>--%>
+<%--<%@ include file="../share/cdn.jsp"%>--%>
+<%@ include file="../share/js.jsp"%>
 <%--layui 插件开始--%>
 <script src="${basePath}/plugins/layui/layui.js"></script>
 <%--菜单js--%>

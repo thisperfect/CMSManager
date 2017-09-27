@@ -43,7 +43,7 @@ layui.use([ 'element'], function(){
     $(window).on('resize',function() {
         var _height =  $(window).height();
 
-        $('div.layui-tab-content').height(_height - 122);
+        $('div.layui-tab-content').height(_height - 100);
         setting.height = _height;
         setting.width = $(window).width();
         var sidebar_height = _height - $(".main-header").height();
