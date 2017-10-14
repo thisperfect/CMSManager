@@ -36,6 +36,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		<property name="securityManager" ref="securityManager"/>
 		<property name="loginUrl" value="/system/login.shtml"/>
 		<property name="successUrl" value="/user/index.shtml"/>
+		<property name="unauthorizedUrl" value="/"/>
 		<!-- 可选配置，通过实现自己的AuthenticatingFilter实现表单的自定义 -->
 		<property name="filters">
 			<util:map>

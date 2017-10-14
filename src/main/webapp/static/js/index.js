@@ -42,7 +42,6 @@ layui.use([ 'element'], function(){
     //窗体改变大小的时候，内容主体高度随之改变
     $(window).on('resize',function() {
         var _height =  $(window).height();
-
         $('div.layui-tab-content').height(_height - 100);
         setting.height = _height;
         setting.width = $(window).width();
@@ -68,12 +67,6 @@ layui.use([ 'element'], function(){
         if (e.altKey && e.which == 76) {
             //锁屏
             alert('锁屏')
-        }
-        if (e.which == 27) {
-            var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-            if (fullscreenElement == null) {
-                $('#FullScreen').html('<i class="fa fa-compress fa-fw"></i>退出全屏')
-            }
         }
     });
 });

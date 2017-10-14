@@ -173,16 +173,5 @@
 
             }
         });*/
-        laypage.render({
-            elem: 'rolePage'
-            ,count: 100
-            ,skin: '#1E9FFF'
-            //,skip: true
-            ,jump: function(obj, first){
-                if(!first){
-                    layer.msg('第'+ obj.curr +'页');
-                }
-            }
-        });
     });
 </script>

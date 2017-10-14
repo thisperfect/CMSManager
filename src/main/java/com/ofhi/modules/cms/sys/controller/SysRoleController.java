@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ofhi.common.Assist;
 import com.ofhi.common.base.BaseController;
 import com.ofhi.common.exception.RequestErrorException;
+import com.ofhi.common.response.ResponseCode;
 import com.ofhi.common.util.SearchHelper;
 import com.ofhi.modules.cms.sys.entity.pojo.SysRole;
 import com.ofhi.modules.cms.sys.service.SysRoleService;
@@ -38,7 +39,7 @@ public class SysRoleController extends BaseController{
             model.addAttribute("roles", sysRolePageInfo);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            throw new RequestErrorException(e.getMessage());
+            throw new RequestErrorException(ResponseCode.error.getCode(), e.getMessage());
         }
         return "sysRole/list";
     }

@@ -228,11 +228,10 @@
 <script src="${basePath}/static/js/index.js"></script>
 <%--右键菜单js--%>
 <script src="${basePath}/static/js/csMenu.js"></script>
-<script src="${basePath}/static/js/tableExport.js"></script>
-<script src="${basePath}/static/js/jquery.base64.js"></script>
-<script src="${basePath}/static/js/base64.js"></script>
-<script src="${basePath}/static/js/jspdf.js"></script>
-<script src="${basePath}/static/js/sprintf.js"></script>
+<%--数据表格插件开始--%>
+<link rel="stylesheet" href="${basePath}/plugins/bootstrap-table/bootstrap-table.css">
+<script src="${basePath}/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${basePath}/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
     $(function () {
         findWeather('#weather');
@@ -241,6 +240,7 @@
         $("#lunarDay").html(showCal());
         $("#week").html(getWeek());
         isIEwarn();
+        alertMessage.ajaxDialog('../sys/role/list.shtml');
     })
 </script>
 

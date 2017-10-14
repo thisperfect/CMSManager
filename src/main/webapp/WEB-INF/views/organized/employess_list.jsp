@@ -53,7 +53,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">时间</label>
                                         <div class="input-block">
-                                            <input value="" placeholder="选择时间" id="date1" class="layui-input"/>
+                                            <input value="" placeholder="选择时间" id="date1" class="layui-input" />
                                         </div>
                                     </div>
                                 </li>
@@ -61,7 +61,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">时间范围</label>
                                         <div class="input-block">
-                                            <input value="" placeholder="选择时间" id="date2" class="layui-input"/>
+                                            <input value="" placeholder="选择时间" id="date2" class="layui-input" />
                                         </div>
                                     </div>
                                 </li>
@@ -99,16 +99,17 @@
                 <button class="layui-btn layui-btn-primary layui-btn-small">
                     <i class="layui-icon">&#xe640;</i>删除
                 </button>
-                <button class="layui-btn layui-btn-primary layui-btn-small pull-right border-0px" role="button" id="table-setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <%--<button class="layui-btn layui-btn-primary layui-btn-small pull-right border-0px" role="button" id="table-setting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-cog"></i>
                 </button>
                 <ul class="dropdown-menu postion-top-auto" aria-labelledby="table-setting">
                     <li><a><i class="fa fa-home"></i> 一 </a></li>
-                </ul>
+                </ul>--%>
             </div>
-            <table id="roleTable">
+            <table id="employessTable">
                 <thead>
                 <tr >
+                    <td></td>
                     <th>编号</th>
                     <th>姓氏</th>
                     <th>名称</th>
@@ -120,7 +121,7 @@
                 <tbody>
                 <c:forEach var="item" items="${pageInfo.list}" varStatus="i">
                     <tr>
-                        <td>${i.index}</td>
+                        <td></td>
                         <td>${item.empNo}</td>
                         <td>${item.firstName}</td>
                         <td>${item.lastName}</td>
@@ -134,13 +135,13 @@
         </div>
     </div>
     <div class="row fooget">
-        <div class="col-xs-12" id="rolePage">
+        <div class="col-xs-12" >
 
         </div>
     </div>
 </div>
 <script>
-   layui.use([ 'laydate'], function(){
+   layui.use([ 'laydate','form'], function(){
 
        $('#roleTable').bootstrapTable({
            url: '../employees/list.shtml',         //请求后台的URL（*）
@@ -163,18 +164,17 @@
            cardView: false,                    //是否显示详细视图
            detailView: false,                   //是否显示父子表
            minimumCountColumns: 2,             //最少允许的列数
-           search: true,  //是否显示搜索框功能
+           search: false,  //是否显示搜索框功能
            showRefresh: true, //是否显示刷新功能
            showToggle: true,
            showColumns: true,
            //iconSize: 'outline',
-           showExport: true,  //是否显示导出按钮
+           showExport: false,  //是否显示导出按钮
            exportTypes:['excel','pdf'],  //导出文件类型
            icons: {
-               export:'fa fa-external-link fa-fw',
-               refresh: 'fa fa-repeat fa-fw',
-               toggle: 'fa fa-columns fa-fw',
-               columns: 'fa fa-angle-double-down fa-fw'
+               refresh: 'fa fa-refresh fa-fw',
+               toggle: 'fa fa-list-alt fa-fw',
+               columns: 'fa fa-columns fa-fw'
            },
            columns: [{
                checkbox: true
