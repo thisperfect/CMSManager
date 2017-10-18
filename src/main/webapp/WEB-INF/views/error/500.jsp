@@ -63,7 +63,7 @@
                         <p><a href="javascript:;" onclick="closeErrorBody()">
                            Close Error Body
                         </a></p>
-                       <p>${error }</p>
+                       <p>${message }</p>
                     </div>
                 </div>
             </div>

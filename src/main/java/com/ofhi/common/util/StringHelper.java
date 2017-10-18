@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +21,20 @@ public class StringHelper extends StringUtils {
 
 	private StringHelper() {}
 
+    /**
+     * 把数组转换成set
+     * @param array
+     * @return
+     */
+    public static Set<?> array2Set(Object[] array) {
+        Set<Object> set = new TreeSet<Object>();
+        for (Object id : array) {
+            if(null != id){
+                set.add(id);
+            }
+        }
+        return set;
+    }
 
 	public static String toString(Object object) {
 	    return object == null ? "" : object.toString();

@@ -1,4 +1,4 @@
-var active ;
+var  active;
 layui.use([ 'element'], function(){
     var element = layui.element
 
@@ -99,7 +99,7 @@ var addContent = function ($this,reset, $content) {
     $.ajax({
         url:_url,
         type:'post',
-        async:false,
+       async:true,
         contentType: "application/json",
         dataType:"html",
         beforeSend: function () {
@@ -122,6 +122,9 @@ var addContent = function ($this,reset, $content) {
         }
     })
 }
+
+
+
 
 /****头部搜索相关事件 开始*******/
 new Vue({

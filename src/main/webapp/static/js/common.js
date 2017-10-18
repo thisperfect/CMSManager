@@ -19,7 +19,7 @@ var setting = {
         ajaxOptions:{//提交ajax请求时的附加参数
             statusCode: {
                 404: function() {
-                    alert( "page not found" );
+                    alertMessage.error('未找到资源，请检查请求结构是否正确。')
                 },
                 500: function () {
                     alertMessage.error('服务器繁忙请稍后重试。')
@@ -94,6 +94,86 @@ var setting = {
         rowAttributes:function(row,index) {
             return '';
         }//自定义行属性 参数为：row: 行数据  index: 行下标  返回值可以为class或者css 支持所有自定义属性
+    }
+}
+
+var utils =  {
+    getCurrentTabId: function () {
+        return $('ul#layui-tab-cs-menu  li.layui-this').attr('lay-id');
+    },
+    getCurrentTabContent: function () {
+        return $('div.content-wrapper > div.layui-tab-card div.layui-tab-content div.layui-show');
+    },
+    //返回id查找原素，没有找到时，防止为空，会构造一个
+    id:function(str){
+        return document.getElementById(str) || document.createElement('span');
+    },
+    /**
+     * 手机号验证
+     * @param str
+     * @returns {boolean}
+     */
+    isPhoneNum:function(str) {
+        var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+        return reg.test(str);
+    },
+    /**
+     * 读取COOKIE
+     */
+    getCookie: function(name) {
+        var reg = new RegExp("(^| )" + name + "(?:=([^;]*))?(;|$)"), val = document.cookie.match(reg);
+        return val ? (val[2] ? unescape(val[2]).replace(/(^")|("$)/g,"") : "") : null;
+    },
+    /**
+     *
+     * @param name
+     * @param value
+     * @param expires  单位是分钟  传0可清除cookie
+     * @param path
+     * @param domain
+     * @param secure
+     */
+    setCookie: function(name, value, expires, path, domain, secure) {
+        var exp = new Date(), expires = expires || null, path = path || "/", domain = domain || '1-dian.net', secure = secure || false;
+        expires ? exp.setMinutes(exp.getMinutes() + parseInt(expires)) : "";
+        document.cookie = name + '=' + escape(value) + ( expires ? ';expires=' + exp.toGMTString() : '') + ( path ? ';path=' + path : '') + ( domain ? ';domain=' + domain : '') + ( secure ? ';secure' : '');
+    },
+    /**
+     * 去掉字符串两端空格
+     * @param str
+     */
+    trim: function (str){
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    },
+    /**
+     * 获取一个url上的参数
+     * @param e 参数名称
+     * @param t url  默认为当前url
+     * @returns {string}
+     */
+    getParam:function (e,t){  //获取url参数
+        var n=arguments[1]||window.location.search,r=new RegExp("(^|&)"+e+"=([^&]*)(&|$)","i"),i=n.substr(n.indexOf("?")+1).match(r);
+        return i!=null?i[2]:"";
+    },
+    /**
+     * 改变url中的参数值
+     */
+    appendParam: function (url,arg,arg_val){
+        var pattern=arg+'=([^&]*)';
+        var replaceText=arg+'='+arg_val;
+        if(url.match(pattern)){
+            var tmp='/('+ arg+'=)([^&]*)/gi';
+            tmp=url.replace(eval(tmp),replaceText);
+            return tmp;
+        }else{
+            if(url.match('[\?](.+)')){
+                return url + '&' + replaceText;
+            } else if(url.match('[\?]')) {
+                return url + replaceText;
+            } else{
+                return url + '?' + replaceText;
+            }
+        }
     }
 }
 
@@ -196,25 +276,74 @@ function findWeather(select) {
 }
 
 var ajax =  {
-   post: function (_url, _param, _callback) {
-        _url += (_url.indexOf("?") > 0 ? "&" : "?") + "t=" + (new Date()).getTime();
-        $.post(_url, _param, function (_result) {
-            if (_result['code'] != '20000') {
-                alertMessage.error(_result['msg']);
-            } else {
-                runCallback(_callback, _result);
+    ajaxRequest:function(obj, _callback){
+        obj.success = function(json){
+            var code = json['code'] ;
+            switch (code) {
+                case 10000:
+                    if (json['msg']) {
+                        alertMessage.success(json['msg']);
+                    }
+                    json = JSON.stringify(json);
+                    runCallback(_callback, json);
+                    break;
+                case 20007:
+                    alertMessage.info('登入过期，请先登入。',{
+                        autoClose: 'btnOk|3000' ,
+                        buttons: {
+                            btnOk: {
+                                text: '现在登入',
+                                btnClass: 'btn-info',
+                                keys: ['enter'],
+                                action: function () {
+                                    runCallback(_callback)
+                                }
+                            }
+                        }
+                    }, function () {
+                       window.location.href = '/system/login.shtml';
+                    });
+                    break;
+                default:
+                   alertMessage.error(code + ':' + json['msg'])
+                    break;
             }
-        });
+        };
+
+        obj.statusCode= {
+            404:function(){alertMessage.warning('未找到资源，请检查请求结构是否正确。')},
+            500:function(){alertMessage.error('服务器繁忙' );}
+        };
+
+        obj.error = function(XMLHttpRequest, textStatus, errorThrown){
+            alertMessage.error(XMLHttpRequest.status + ':' + textStatus);
+            console.log(errorThrown);
+        };
+        obj.beforeSend = function () {
+            alertMessage.loading();
+        };
+        obj.complete = function () {
+            alertMessage.closeLoading();
+        };
+        $.ajax(obj)
+    },
+    post: function (_url, _param, _callback) {
+       _url += (_url.indexOf("?") > 0 ? "&" : "?") + "t=" + (new Date()).getTime();
+        this.ajaxRequest({
+            url: _url,
+            data:_param,
+            dataType:'json',
+            type:'post'
+        }, _callback);
     },
     get:function (_url, _param, _callback) {
         _url += (_url.indexOf("?") > 0 ? "&" : "?") + "t=" + (new Date()).getTime();
-        $.get(_url, _param, function (_result) {
-            if (_result['code'] != '20000') {
-                alertMessage.error(_result['msg']);
-            } else {
-                runCallback(_callback, _result);
-            }
-        });
+        this.ajaxRequest({
+            url: _url,
+            data:_param,
+            dataType:'json',
+            type:'get'
+        }, _callback);
     },
     load: function(_selector, _url, _param, _callback) {
         ajax.get(_url, _param, function (_result) {
@@ -283,26 +412,32 @@ var alertMessage = {
             }
         })
     },
-    info: function (_content, _callback) {
-        $.alert({
+    info: function (_content,_options, _callback) {
+        var _defaults = {
             backgroundDismiss: true,
-            title: false,
-            type: 'green',
-            animation: 'scaleY',
-            closeAnimation: 'scaleX',
-            theme: 'bootstrap',
-            animateFromElement: false,
-            content: _content,
-            buttons: {
-                cancel: {
-                    text: '朕知道了',
-                    btnClass: 'btn-info',
-                    action: function () {
-                        runCallback(_callback)
+                title: '消息提示',
+                icon: 'fa fa-question-circle-o',
+                animation: 'scaleY',
+                closeAnimation: 'scaleX',
+                animateFromElement: false,
+                closeIcon: true,
+                type: 'green',
+                theme: 'bootstrap',
+                content: _content,
+                //autoClose: 'btnOk|5000' ,
+                buttons: {
+                btnOk: {
+                    text: '确定',
+                        btnClass: 'btn-info',
+                        keys: ['enter'],
+                        action: function () {
+                            runCallback(_callback)
                     }
                 }
             }
-        })
+        }
+        var _option = $.extend(_defaults, _options);
+        $.alert(_option)
     },
     confirm: function (_content, _options) {
         var defaults = {
