@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	</bean>
 
 	<!-- 項目自定义的Realm -->
-	<bean id="shiroDbRealm" class="com.ofhi.common.security.shiro.shiroRealm">
+	<bean id="shiroDbRealm" class="com.ofhi.common.security.shiro.ShiroRealm">
 		<!-- 配置密码匹配器 -->
 		<property name="credentialsMatcher">
 			<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -81,7 +81,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		</property>
 		<property name="sessionListeners">
 			<list>
-				<bean class="com.ofhi.common.Listener.ShiroSessionListener"/>
+				<bean class="com.ofhi.common.listener.ShiroSessionListener"/>
 			</list>
 		</property>
 	</bean>

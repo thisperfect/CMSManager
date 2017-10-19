@@ -29,9 +29,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class shiroRealm extends AuthorizingRealm {
+public class ShiroRealm extends AuthorizingRealm {
 
-	private org.slf4j.Logger log = LoggerFactory.getLogger(shiroRealm.class);
+	private org.slf4j.Logger log = LoggerFactory.getLogger(ShiroRealm.class);
 
 	@Autowired 
 	private SysUserService sysUserService;

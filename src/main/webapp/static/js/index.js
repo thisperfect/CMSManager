@@ -36,16 +36,19 @@ layui.use([ 'element'], function(){
         alertMessage.autoConfirm('确定退出系统吗?','退出系统',function () {
             window.location.href = '../user/loginOut.shtml';
         });
-    })
+    });
 
 
     //窗体改变大小的时候，内容主体高度随之改变
     $(window).on('resize',function() {
-        var _height =  $(window).height();
-        $('div.layui-tab-content').height(_height - 100);
+        var _height =  $(window).height(),
+            _width = $(window).width(),
+            _nav_header_height = $("header.main-header").height(),sidebar_height;
+        console.log(_height)
+        $('div.layui-tab-content').height(_height - _nav_header_height - 55);
         setting.height = _height;
-        setting.width = $(window).width();
-        var sidebar_height = _height - $(".main-header").height();
+        setting.width = _width;
+        sidebar_height = _height - _nav_header_height;
         $('.sidebar').height(sidebar_height);
         $('.slimScrollDiv').height(sidebar_height);
     }).resize();

@@ -186,7 +186,6 @@
 <script src="${basePath}/static/js/index.js"></script>
 <%--右键菜单js--%>
 <script src="${basePath}/static/js/left-menu.min.js"></script>
-<link rel="stylesheet" href="${basePath}/static/css/left-menu.min.css">
 <%--数据表格插件开始--%>
 <link rel="stylesheet" href="${basePath}/plugins/bootstrap-table/bootstrap-table.css">
 <script src="${basePath}/plugins/bootstrap-table/bootstrap-table.min.js"></script>
@@ -203,7 +202,7 @@
         context.init({preventDoubleContext: true});
         context.attach('#layui-tab-cs-menu', [
             {
-                header: 'Example'
+                header: '欢迎使用右键菜单'
             },
             {
                 icon: 'fa fa-refresh',

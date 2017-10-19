@@ -20,7 +20,7 @@ public class MD5 {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(plainText.getBytes());
-			byte b[] = md.digest();
+            byte[] b = md.digest();
 
 			int i;
 
