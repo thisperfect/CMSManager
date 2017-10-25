@@ -27,7 +27,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	
 	<!-- 获取bean工具注入 -->
 	<bean id="applicationContextHolder" class="com.ofhi.common.util.ApplicationContextHolder" lazy-init="false"/>
-	
+
+    <!-- 日志记录AOP实现 -->
+    <bean class="com.ofhi.common.handler.LogAspect"/>
+
 	<!-- 线程池 -->
    	<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
         <!-- 核心线程数，默认为1 -->
