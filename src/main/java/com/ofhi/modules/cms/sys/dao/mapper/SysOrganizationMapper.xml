@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ofhi.modules.cms.sys.dao.SysOrganizationDao">
+    <resultMap id="result_SysOrganization_Map" type="com.ofhi.modules.cms.sys.entity.pojo.SysOrganization">
+        <id column="SysOrganization0" property="id" />
+        <result column="SysOrganization1" property="name" />
+        <result column="SysOrganization2" property="icon" />
+        <result column="SysOrganization3" property="parentId" />
+        <result column="SysOrganization4" property="createTime" />
+        <result column="SysOrganization5" property="updateTime" />
+        <result column="SysOrganization6" property="createBy" />
+        <result column="SysOrganization7" property="updateBy" />
+        <result column="SysOrganization8" property="isFinal" />
+    </resultMap>
+
+    <sql id="sys_organization_Column">
+        sys_organization.id as SysOrganization0
+        ,sys_organization.name as SysOrganization1
+        ,sys_organization.icon as SysOrganization2
+        ,sys_organization.parent_id as SysOrganization3
+        ,sys_organization.create_time as SysOrganization4
+        ,sys_organization.update_time as SysOrganization5
+        ,sys_organization.create_by as SysOrganization6
+        ,sys_organization.update_by as SysOrganization7
+        ,sys_organization.is_final as SysOrganization8
+    </sql>
+
+    <select id="getSysOrganizationRowCount" resultType="java.lang.Long">
+        select count(id) from sys_organization
+    </select>
+    <select id="selectSysOrganization" resultMap="result_SysOrganization_Map">
+        select 
+        <include refid="sys_organization_Column" /> 
+        from sys_organization
+    </select> 
+
+    <select id="selectSysOrganizationById" parameterType="java.lang.Long" resultMap="result_SysOrganization_Map">
+        select 
+            <include refid="sys_organization_Column" /> 
+        from sys_organization
+        where sys_organization.id = #{id}
+    </select> 
+
+
+    <insert id="insertSysOrganization" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysOrganization">
+        insert into sys_organization(id,name,icon,parent_id,create_time,update_time,create_by,update_by,is_final) 
+        values(#{id},#{name},#{icon},#{parentId},#{createTime},#{updateTime},#{createBy},#{updateBy},#{isFinal})
+    </insert>
+
+    <insert id="insertNonEmptySysOrganization" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysOrganization">
+        insert into sys_organization
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="icon != null">icon,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="isFinal != null">is_final,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="name != null"> #{name},</if>
+            <if test="icon != null"> #{icon},</if>
+            <if test="parentId != null"> #{parentId},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="createBy != null"> #{createBy},</if>
+            <if test="updateBy != null"> #{updateBy},</if>
+            <if test="isFinal != null"> #{isFinal},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteSysOrganizationById" parameterType="java.lang.Long">
+        delete from sys_organization
+        where id = #{id}
+    </delete>
+
+    <update id="updateSysOrganizationById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysOrganization">
+        update sys_organization set
+            name=#{name}
+            ,icon=#{icon}
+            ,parent_id=#{parentId}
+            ,create_time=#{createTime}
+            ,update_time=#{updateTime}
+            ,create_by=#{createBy}
+            ,update_by=#{updateBy}
+            ,is_final=#{isFinal}
+        where id=#{id}
+    </update>
+
+    <update id="updateNonEmptySysOrganizationById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysOrganization">
+        update sys_organization
+        <set>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="icon != null">
+                icon=#{icon},
+            </if>
+            <if test="parentId != null">
+                parent_id=#{parentId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+            <if test="isFinal != null">
+                is_final=#{isFinal},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

@@ -1,7 +1,7 @@
 package com.ofhi.common.util;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
@@ -73,7 +73,7 @@ public class SerializeUtils extends SerializationUtils {
     public static Session deserializeFromString(String base64) {
         try {
             byte[] objectData = Base64.decode(base64);
-            return deserialize(objectData);
+            return (Session)deserialize(objectData);
         } catch (Exception e) {
             throw new RuntimeException("deserialize session error", e);
         }
@@ -84,7 +84,7 @@ public class SerializeUtils extends SerializationUtils {
             List<T> list = Lists.newLinkedList();
             for (String base64 : base64s) {
                 byte[] objectData = Base64.decode(base64);
-                T t = deserialize(objectData);
+                T t = (T)deserialize(objectData);
                 list.add(t);
             }
             return list;

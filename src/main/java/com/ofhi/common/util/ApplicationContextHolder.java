@@ -2,8 +2,9 @@ package com.ofhi.common.util;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -73,7 +74,7 @@ public class ApplicationContextHolder implements ApplicationContextAware, Dispos
 	 * 检查ApplicationContext不为空.
 	 */
 	private static void assertContextInjected() {
-		Validate.validState(applicationContext != null, "applicaitonContext属性未注入, 请在applicationContext.xml中定义ApplicationContextHolder.");
+		Validate.isTrue(applicationContext != null, "applicaitonContext属性未注入, 请在applicationContext.xml中定义ApplicationContextHolder.");
 	}
 	
 	public static ServletContext getServletContext() {

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ofhi.modules.cms.sys.dao.SysLogDao">
+    <resultMap id="result_SysLog_Map" type="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
+        <id column="SysLog0" property="id" />
+        <result column="SysLog1" property="description" />
+        <result column="SysLog2" property="username" />
+        <result column="SysLog3" property="startTime" />
+        <result column="SysLog4" property="spendTime" />
+        <result column="SysLog5" property="basePath" />
+        <result column="SysLog6" property="uri" />
+        <result column="SysLog7" property="url" />
+        <result column="SysLog8" property="method" />
+        <result column="SysLog9" property="userAgent" />
+        <result column="SysLog10" property="ip" />
+        <result column="SysLog11" property="permissions" />
+        <result column="SysLog12" property="parameter" />
+        <result column="SysLog13" property="result" />
+    </resultMap>
+
+    <sql id="sys_log_Column">
+        sys_log.id as SysLog0
+        ,sys_log.description as SysLog1
+        ,sys_log.username as SysLog2
+        ,sys_log.start_time as SysLog3
+        ,sys_log.spend_time as SysLog4
+        ,sys_log.base_path as SysLog5
+        ,sys_log.uri as SysLog6
+        ,sys_log.url as SysLog7
+        ,sys_log.method as SysLog8
+        ,sys_log.user_agent as SysLog9
+        ,sys_log.ip as SysLog10
+        ,sys_log.permissions as SysLog11
+        ,sys_log.parameter as SysLog12
+        ,sys_log.result as SysLog13
+    </sql>
+
+    <select id="getSysLogRowCount" resultType="java.lang.Long">
+        select count(id) from sys_log
+    </select>
+    <select id="selectSysLog" resultMap="result_SysLog_Map">
+        select 
+        <include refid="sys_log_Column" /> 
+        from sys_log
+    </select> 
+
+    <select id="selectSysLogById" parameterType="java.lang.Integer" resultMap="result_SysLog_Map">
+        select 
+            <include refid="sys_log_Column" /> 
+        from sys_log
+        where sys_log.id = #{id}
+    </select> 
+
+
+    <insert id="insertSysLog" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
+        insert into sys_log(id,description,username,start_time,spend_time,base_path,uri,url,method,user_agent,ip,permissions,parameter,result) 
+        values(#{id},#{description},#{username},#{startTime},#{spendTime},#{basePath},#{uri},#{url},#{method},#{userAgent},#{ip},#{permissions},#{parameter},#{result})
+    </insert>
+
+    <insert id="insertNonEmptySysLog" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="description != null">description,</if>
+            <if test="username != null">username,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="spendTime != null">spend_time,</if>
+            <if test="basePath != null">base_path,</if>
+            <if test="uri != null">uri,</if>
+            <if test="url != null">url,</if>
+            <if test="method != null">method,</if>
+            <if test="userAgent != null">user_agent,</if>
+            <if test="ip != null">ip,</if>
+            <if test="permissions != null">permissions,</if>
+            <if test="parameter != null">parameter,</if>
+            <if test="result != null">result,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="description != null"> #{description},</if>
+            <if test="username != null"> #{username},</if>
+            <if test="startTime != null"> #{startTime},</if>
+            <if test="spendTime != null"> #{spendTime},</if>
+            <if test="basePath != null"> #{basePath},</if>
+            <if test="uri != null"> #{uri},</if>
+            <if test="url != null"> #{url},</if>
+            <if test="method != null"> #{method},</if>
+            <if test="userAgent != null"> #{userAgent},</if>
+            <if test="ip != null"> #{ip},</if>
+            <if test="permissions != null"> #{permissions},</if>
+            <if test="parameter != null"> #{parameter},</if>
+            <if test="result != null"> #{result},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteSysLogById" parameterType="java.lang.Integer">
+        delete from sys_log
+        where id = #{id}
+    </delete>
+
+    <update id="updateSysLogById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
+        update sys_log set
+            description=#{description}
+            ,username=#{username}
+            ,start_time=#{startTime}
+            ,spend_time=#{spendTime}
+            ,base_path=#{basePath}
+            ,uri=#{uri}
+            ,url=#{url}
+            ,method=#{method}
+            ,user_agent=#{userAgent}
+            ,ip=#{ip}
+            ,permissions=#{permissions}
+            ,parameter=#{parameter}
+            ,result=#{result}
+        where id=#{id}
+    </update>
+
+    <update id="updateNonEmptySysLogById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
+        update sys_log
+        <set>
+            <if test="description != null">
+                description=#{description},
+            </if>
+            <if test="username != null">
+                username=#{username},
+            </if>
+            <if test="startTime != null">
+                start_time=#{startTime},
+            </if>
+            <if test="spendTime != null">
+                spend_time=#{spendTime},
+            </if>
+            <if test="basePath != null">
+                base_path=#{basePath},
+            </if>
+            <if test="uri != null">
+                uri=#{uri},
+            </if>
+            <if test="url != null">
+                url=#{url},
+            </if>
+            <if test="method != null">
+                method=#{method},
+            </if>
+            <if test="userAgent != null">
+                user_agent=#{userAgent},
+            </if>
+            <if test="ip != null">
+                ip=#{ip},
+            </if>
+            <if test="permissions != null">
+                permissions=#{permissions},
+            </if>
+            <if test="parameter != null">
+                parameter=#{parameter},
+            </if>
+            <if test="result != null">
+                result=#{result},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

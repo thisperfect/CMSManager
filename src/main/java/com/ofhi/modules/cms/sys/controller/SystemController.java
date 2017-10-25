@@ -16,7 +16,7 @@ import com.ofhi.modules.cms.sys.entity.pojo.SysUser;
 import com.ofhi.modules.cms.sys.entity.vo.UserLogin;
 import com.ofhi.modules.cms.sys.entity.vo.UserRegister;
 import com.ofhi.modules.cms.sys.service.SysUserService;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;

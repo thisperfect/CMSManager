@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ofhi.modules.cms.sys.dao.SysUserDao">
+    <resultMap id="result_SysUser_Map" type="com.ofhi.modules.cms.sys.entity.pojo.SysUser">
+        <id column="SysUser0" property="id" />
+        <result column="SysUser1" property="loginName" />
+        <result column="SysUser2" property="name" />
+        <result column="SysUser3" property="sex" />
+        <result column="SysUser4" property="birth" />
+        <result column="SysUser5" property="email" />
+        <result column="SysUser6" property="phone" />
+        <result column="SysUser7" property="address" />
+        <result column="SysUser8" property="password" />
+        <result column="SysUser9" property="createTime" />
+        <result column="SysUser10" property="updateTime" />
+        <result column="SysUser11" property="createBy" />
+        <result column="SysUser12" property="updateBy" />
+        <result column="SysUser13" property="status" />
+        <result column="SysUser14" property="isFinal" />
+        <result column="SysUser15" property="organizationId" />
+    </resultMap>
+
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value}
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="sys_user_Column">
+        sys_user.id as SysUser0
+        ,sys_user.login_name as SysUser1
+        ,sys_user.name as SysUser2
+        ,sys_user.sex as SysUser3
+        ,sys_user.birth as SysUser4
+        ,sys_user.email as SysUser5
+        ,sys_user.phone as SysUser6
+        ,sys_user.address as SysUser7
+        ,sys_user.password as SysUser8
+        ,sys_user.create_time as SysUser9
+        ,sys_user.update_time as SysUser10
+        ,sys_user.create_by as SysUser11
+        ,sys_user.update_by as SysUser12
+        ,sys_user.status as SysUser13
+        ,sys_user.is_final as SysUser14
+        ,sys_user.organization_id as SysUser15
+    </sql>
+
+    <select id="getSysUserRowCount" parameterType="com.ofhi.common.Assist" resultType="java.lang.Long">
+        select count(id) from sys_user
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <select id="selectSysUser" parameterType="com.ofhi.common.Assist" resultMap="result_SysUser_Map">
+        select  <if test="distinct != null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!= null">${resultColumn}</when>
+            <otherwise>
+        <include refid="sys_user_Column" /> 
+            </otherwise>
+        </choose>
+        from sys_user
+        <if test="require!=null"><include refid="Assist" /></if>
+        <if test="order !=null">${order}</if>
+        <if test="rowSize !=null"> LIMIT #{rowSize} <if test="startRow !=null"> OFFSET #{startRow}</if></if>
+    </select> 
+
+    <select id="selectSysUserById" parameterType="java.lang.Long" resultMap="result_SysUser_Map">
+        select 
+            <include refid="sys_user_Column" /> 
+        from sys_user
+        where sys_user.id = #{id}
+    </select> 
+
+
+    <insert id="insertSysUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysUser">
+        insert into sys_user(id,login_name,name,sex,birth,email,phone,address,password,create_time,update_time,create_by,update_by,status,is_final,organization_id)
+        values(#{id},#{loginName},#{name},#{sex},#{birth},#{email},#{phone},#{address},#{password},#{createTime},#{updateTime},#{createBy},#{updateBy},#{status},#{isFinal},#{organizationId})
+    </insert>
+
+    <insert id="insertNonEmptySysUser" useGeneratedKeys="true" keyProperty="id"  parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysUser">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="loginName != null">login_name,</if>
+            <if test="name != null">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="birth != null">birth,</if>
+            <if test="email != null">email,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="password != null">password,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="status != null">status,</if>
+            <if test="isFinal != null">is_final,</if>
+            <if test="organizationId != null">organization_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="loginName != null"> #{loginName},</if>
+            <if test="name != null"> #{name},</if>
+            <if test="sex != null"> #{sex},</if>
+            <if test="birth != null"> #{birth},</if>
+            <if test="email != null"> #{email},</if>
+            <if test="phone != null"> #{phone},</if>
+            <if test="address != null"> #{address},</if>
+            <if test="password != null"> #{password},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="createBy != null"> #{createBy},</if>
+            <if test="updateBy != null"> #{updateBy},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="isFinal != null"> #{isFinal},</if>
+            <if test="organizationId != null"> #{organization_id},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteSysUserById" parameterType="java.lang.Long">
+        delete from sys_user
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteSysUser" parameterType="com.ofhi.common.Assist">
+        delete from sys_user
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <update id="updateSysUserById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysUser">
+        update sys_user set
+            login_name=#{loginName}
+            ,name=#{name}
+            ,sex=#{sex}
+            ,birth=#{birth}
+            ,email=#{email}
+            ,phone=#{phone}
+            ,address=#{address}
+            ,password=#{password}
+            ,create_time=#{createTime}
+            ,update_time=#{updateTime}
+            ,create_by=#{createBy}
+            ,update_by=#{updateBy}
+            ,status=#{status}
+            ,is_final=#{isFinal}
+            ,organization_id=#{organizationId}
+        where id=#{id}
+    </update>
+
+    <update id="updateNonEmptySysUserById" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysUser">
+        update sys_user
+        <set>
+            <if test="loginName != null">
+                login_name=#{loginName},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="sex != null">
+                sex=#{sex},
+            </if>
+            <if test="birth != null">
+                birth=#{birth},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="address != null">
+                address=#{address},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="createBy != null">
+                create_by=#{createBy},
+            </if>
+            <if test="updateBy != null">
+                update_by=#{updateBy},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="isFinal != null">
+                is_final=#{isFinal},
+            </if>
+            <if test="organizationId != null">
+                is_final=#{organization_id},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="updateSysUser" parameterType="map">
+        update sys_user
+        <set>
+                id=#{enti.id},
+                login_name=#{enti.loginName},
+                name=#{enti.name},
+                sex=#{enti.sex},
+                birth=#{enti.birth},
+                email=#{enti.email},
+                phone=#{enti.phone},
+                address=#{enti.address},
+                password=#{enti.password},
+                create_time=#{enti.createTime},
+                update_time=#{enti.updateTime},
+                create_by=#{enti.createBy},
+                update_by=#{enti.updateBy},
+                status=#{enti.status},
+                is_final=#{enti.isFinal},
+            organization_id=#{enti.organizationId},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <update id="updateNonEmptySysUser" parameterType="map">
+        update sys_user
+        <set>
+            <if test="enti.id != null">
+                id=#{enti.id},
+            </if>
+            <if test="enti.loginName != null">
+                login_name=#{enti.loginName},
+            </if>
+            <if test="enti.name != null">
+                name=#{enti.name},
+            </if>
+            <if test="enti.sex != null">
+                sex=#{enti.sex},
+            </if>
+            <if test="enti.birth != null">
+                birth=#{enti.birth},
+            </if>
+            <if test="enti.email != null">
+                email=#{enti.email},
+            </if>
+            <if test="enti.phone != null">
+                phone=#{enti.phone},
+            </if>
+            <if test="enti.address != null">
+                address=#{enti.address},
+            </if>
+            <if test="enti.password != null">
+                password=#{enti.password},
+            </if>
+            <if test="enti.createTime != null">
+                create_time=#{enti.createTime},
+            </if>
+            <if test="enti.updateTime != null">
+                update_time=#{enti.updateTime},
+            </if>
+            <if test="enti.createBy != null">
+                create_by=#{enti.createBy},
+            </if>
+            <if test="enti.updateBy != null">
+                update_by=#{enti.updateBy},
+            </if>
+            <if test="enti.status != null">
+                status=#{enti.status},
+            </if>
+            <if test="enti.isFinal != null">
+                is_final=#{enti.isFinal},
+            </if>
+            <if test="enti.organizationId != null">
+                is_final=#{enti.organizationId},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>

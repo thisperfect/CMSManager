@@ -4,7 +4,7 @@ package com.ofhi.common.cache.shiro;
 import com.ofhi.common.util.RedisUtil;
 import com.ofhi.common.util.SerializeUtils;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;

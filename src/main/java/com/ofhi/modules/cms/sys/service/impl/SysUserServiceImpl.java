@@ -1,28 +1,24 @@
 package com.ofhi.modules.cms.sys.service.impl;
 
+import com.ofhi.common.Assist;
 import com.ofhi.common.Constant;
 import com.ofhi.common.exception.RequestErrorException;
 import com.ofhi.common.response.ResponseCode;
+import com.ofhi.common.security.MD5;
+import com.ofhi.common.user.UserConst;
 import com.ofhi.common.util.StringHelper;
 import com.ofhi.modules.cms.sys.dao.SysUserDao;
 import com.ofhi.modules.cms.sys.entity.pojo.SysUser;
 import com.ofhi.modules.cms.sys.entity.vo.UserRegister;
-import com.ofhi.common.Assist;
-import com.ofhi.common.security.MD5;
-import com.ofhi.common.user.UserConst;
 import com.ofhi.modules.cms.sys.service.SysUserService;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Condition;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 @Service("sysUserService")

@@ -3,7 +3,7 @@ package com.ofhi.common.util;
 import com.ofhi.common.response.ResponseCode;
 import com.ofhi.common.exception.RequestErrorException;
 import com.ofhi.common.security.DES;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringHelper extends StringUtils {
-
+    private static Pattern linePattern = Pattern.compile("_(\\w)");
+    private static Pattern humpPattern = Pattern.compile("[A-Z]");
     private static final Logger logger = LoggerFactory.getLogger(StringHelper.class);
 
 	private StringHelper() {}
@@ -47,7 +48,76 @@ public class StringHelper extends StringUtils {
             return 0L;
         }
     }
-	
+    /**
+     * 首字母转小写
+     * @param s
+     * @return
+     */
+    public static String toLowerCaseFirstOne(String s) {
+        if (StringUtils.isBlank(s)) {
+            return s;
+        }
+        if (Character.isLowerCase(s.charAt(0))) {
+            return s;
+        } else {
+            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
+    }
+
+    /**
+     * 首字母转大写
+     * @param s
+     * @return
+     */
+    public static String toUpperCaseFirstOne(String s) {
+        if (StringUtils.isBlank(s)) {
+            return s;
+        }
+        if (Character.isUpperCase(s.charAt(0))) {
+            return s;
+        } else {
+            return (new StringBuffer()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
+    }
+
+    /**
+     * 下划线转驼峰
+     * @param str
+     * @return
+     */
+    public static String lineToHump(String str) {
+        if (null == str || "".equals(str)) {
+            return str;
+        }
+        str = str.toLowerCase();
+        Matcher matcher = linePattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+
+        str = sb.toString();
+        str = str.substring(0, 1).toUpperCase() + str.substring(1);
+
+        return str;
+    }
+
+    /**
+     * 驼峰转下划线,效率比上面高
+     * @param str
+     * @return
+     */
+    public static String humpToLine(String str) {
+        Matcher matcher = humpPattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     /**
      * 捕捉异常详细异常栈
      *
@@ -64,7 +134,7 @@ public class StringHelper extends StringUtils {
     /**
      * 正则表达式校验邮箱
      *
-     * @param emaile
+     * @param email
      *            待匹配的邮箱
      * @return 匹配成功返回true 否则返回false;
      */

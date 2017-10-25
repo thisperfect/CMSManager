@@ -6,7 +6,7 @@ import com.ofhi.modules.cms.sys.entity.vo.UserLogin;
 import com.ofhi.modules.cms.sys.entity.vo.UserRegister;
 import com.ofhi.common.response.InterfaceResult;
 import com.ofhi.common.security.MD5;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class UserHelper {
 

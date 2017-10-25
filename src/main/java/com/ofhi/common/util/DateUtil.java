@@ -1,5 +1,5 @@
 package com.ofhi.common.util;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
