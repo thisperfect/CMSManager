@@ -1,21 +1,19 @@
 package com.ofhi.common.security.shiro;
 
-import java.io.PrintWriter;
+import com.ofhi.common.response.InterfaceResult;
+import com.ofhi.common.response.ResponseCode;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
-import com.ofhi.common.response.ResponseCode;
-import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
-import org.apache.shiro.web.util.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.ofhi.common.response.InterfaceResult;
-
-public class ShiroAuthenticationFilter extends PassThruAuthenticationFilter {
+public class ShiroAuthenticationFilter extends FormAuthenticationFilter {
 
 	private Logger logger = LoggerFactory.getLogger(ShiroAuthenticationFilter.class);
 	
@@ -29,7 +27,7 @@ public class ShiroAuthenticationFilter extends PassThruAuthenticationFilter {
         	logger.debug("===> on login");
             saveRequest(request);
             HttpServletRequest req = (HttpServletRequest)request;
-            if (req.getHeader("x-requested-with") != null && req.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) {
+            if ("XMLHttpRequest".equalsIgnoreCase(req.getHeader("x-requested-with"))) {
             	logger.debug("===> ajax request");
             	response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json;charset=UTF-8");

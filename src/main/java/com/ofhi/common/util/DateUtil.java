@@ -25,7 +25,7 @@ public class DateUtil {
 	private final static String FORMAT_YEARMONDAY = "yyMMdd";
 
 	private final static String FORMAT_YEARMONDAYDAY = "yyyyMMdd";
-	public final static String dayNames[] = { "0", "1", "2", "3", "4", "5", "6" }; // 0：周日
+	public final static String[] dayNames = {"0", "1", "2", "3", "4", "5", "6"}; // 0：周日
 	
 	public static final String				HM				= "HH:mm";
 	public static final String				YMDHM			= "yyyy-MM-dd HH:mm";

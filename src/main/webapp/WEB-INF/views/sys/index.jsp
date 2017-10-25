@@ -164,48 +164,6 @@
         </div>
     </div>
 </div>
-
-<!-- 右键菜单开始 -->
-<menu class="csmenu">
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="refresh">
-            <i class="fa fa-refresh"></i>
-            <span class="menu-text">刷新当前</span>
-        </button>
-    </li>
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="close">
-            <i class="fa fa-times"></i>
-            <span class="menu-text">关闭当前</span>
-        </button>
-    </li>
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="closeAll">
-            <i class="fa fa-times-circle"></i>
-            <span class="menu-text">关闭全部</span>
-        </button>
-    </li>
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="closeRight">
-            <i class="fa fa-long-arrow-right"></i>
-            <span class="menu-text">关闭左边</span>
-        </button>
-    </li>
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="closeLeft">
-            <i class="fa fa-long-arrow-left"></i>
-            <span class="menu-text">关闭右边</span>
-        </button>
-    </li>
-    <li class="menu-item">
-        <button type="button" class="menu-btn" data-type="closeOther">
-            <i class="fa fa-exchange"></i>
-            <span class="menu-text">关闭其它</span>
-        </button>
-    </li>
-</menu>
-<!-- 右键菜单结束 -->
-
 <!-- 成功提示开始 -->
     <div id="success-message">
         <i class="fa fa-check fa-fw"></i>
@@ -227,21 +185,99 @@
 <%--主页js--%>
 <script src="${basePath}/static/js/index.js"></script>
 <%--右键菜单js--%>
-<script src="${basePath}/static/js/csMenu.js"></script>
-<script src="${basePath}/static/js/tableExport.js"></script>
-<script src="${basePath}/static/js/jquery.base64.js"></script>
-<script src="${basePath}/static/js/base64.js"></script>
-<script src="${basePath}/static/js/jspdf.js"></script>
-<script src="${basePath}/static/js/sprintf.js"></script>
+<script src="${basePath}/static/js/left-menu.min.js"></script>
+<%--数据表格插件开始--%>
+<link rel="stylesheet" href="${basePath}/plugins/bootstrap-table/bootstrap-table.css">
+<script src="${basePath}/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${basePath}/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
-    $(function () {
+    layui.use([ 'element'], function(){
+        var element = layui.element
         findWeather('#weather');
         startTimer('#time');
         $("#dateYear").html(getDateTime());
         $("#lunarDay").html(showCal());
         $("#week").html(getWeek());
         isIEwarn();
-    })
+        context.init({preventDoubleContext: true});
+        context.attach('#layui-tab-cs-menu', [
+            {
+                header: '欢迎使用右键菜单'
+            },
+            {
+                icon: 'fa fa-refresh',
+                text: '刷新当前',
+                action: function() {
+                    var _id = utils.getCurrentTabId();
+                    if ('bhome' === _id) {
+                        return;
+                    }
+                    addContent($('#' + _id), false, utils.getCurrentTabContent());
+                }
+            },
+            {
+                icon: 'fa fa-times',
+                text: '关闭当前',
+                action: function() {
+                    var _id = utils.getCurrentTabId();
+                    if ('bhome' === _id) {
+                        return;
+                    }
+                    element.tabDelete('left-tab-menu', _id);
+                }
+            },
+            {
+                icon: 'fa fa-times-circle',
+                text: '关闭全部',
+                action: function() {
+                    $('ul#layui-tab-cs-menu li').each(function () {
+                        var _id = $(this).attr('lay-id');
+                        if (_id != 'bhome') {
+                            element.tabDelete('left-tab-menu', _id);
+                        }
+                    })
+                }
+            },
+            {
+                icon: 'fa fa-long-arrow-right',
+                text: '关闭左边',
+                action: function() {
+                    $('ul#layui-tab-cs-menu  li.layui-this').nextAll().each(function () {
+                        var _id = $(this).attr('lay-id');
+                        element.tabDelete('left-tab-menu', _id);
+                    });
+                }
+            },
+            {
+                icon: 'fa fa-long-arrow-left',
+                text: '关闭右边',
+                action: function() {
+                    $('ul#layui-tab-cs-menu  li.layui-this').prevAll().each(function () {
+                        var _id = $(this).attr('lay-id');
+                        if (_id != 'bhome') {
+                            element.tabDelete('left-tab-menu', _id);
+                        }
+                    });
+                }
+            },
+            {
+                icon: 'fa fa-exchange',
+                text: '关闭其他',
+                action: function() {
+                    var _currId = utils.getCurrentTabId();
+                    $('ul#layui-tab-cs-menu li').each(function () {
+                        var _id = $(this).attr('lay-id');
+                        if (_id != 'bhome' && _id != _currId) {
+                            element.tabDelete('left-tab-menu', _id);
+                        }
+                    });
+                }
+            }
+        ]);
+
+
+      //  alertMessage.ajaxDialog('../sys/role/list.shtml');
+    });
 </script>
 
 </body>

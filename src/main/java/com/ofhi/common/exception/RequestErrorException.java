@@ -15,9 +15,6 @@ public class RequestErrorException extends RuntimeException {
 		return this.errMsg;
 	}
 
-	public RequestErrorException(String message) {
-		super(message);
-	}
 
 	public RequestErrorException() {
 		super();
@@ -34,6 +31,11 @@ public class RequestErrorException extends RuntimeException {
 	public RequestErrorException(int errCode, String errMsg) {
 		super(String.format("%s : %s", errCode, errMsg));
 		this.errCode = errCode;
+		this.errMsg = errMsg;
+	}
+	public RequestErrorException(String errMsg) {
+		super(String.format("%s : %s", ResponseCode.error.getCode(), errMsg));
+		this.errCode = ResponseCode.error.getCode();
 		this.errMsg = errMsg;
 	}
 

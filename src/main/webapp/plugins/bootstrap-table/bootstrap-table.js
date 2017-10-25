@@ -1055,7 +1055,7 @@
         }
 
         // showColumns, showToggle, showRefresh
-        html = [sprintf('<div class="columns columns-%s btn-group pull-%s">',
+        html = [sprintf('<div class="bs-bars pull-%s"><div class="layui-btn-group btn-block">',
             this.options.buttonsAlign, this.options.buttonsAlign)];
 
         if (typeof this.options.icons === 'string') {
@@ -1069,39 +1069,32 @@
                     '" type="button" name="paginationSwitch" aria-label="pagination Switch" title="%s">',
                     this.options.formatPaginationSwitch()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.paginationSwitchDown),
-                '</button>');
+                '视图</button>');
         }
 
         if (this.options.showRefresh) {
-            html.push(sprintf('<button class="btn' +
-                    sprintf(' btn-%s', this.options.buttonsClass) +
-                    sprintf(' btn-%s', this.options.iconSize) +
+            html.push(sprintf('<button class="layui-btn layui-btn-primary layui-btn-small' +
                     '" type="button" name="refresh" aria-label="refresh" title="%s">',
                     this.options.formatRefresh()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.refresh),
-                '</button>');
+                '刷新</button>');
         }
 
         if (this.options.showToggle) {
-            html.push(sprintf('<button class="btn' +
-                    sprintf(' btn-%s', this.options.buttonsClass) +
-                    sprintf(' btn-%s', this.options.iconSize) +
+            html.push(sprintf('<button class="layui-btn layui-btn-primary layui-btn-small' +
                     '" type="button" name="toggle" aria-label="toggle" title="%s">',
                     this.options.formatToggle()),
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.toggle),
-                '</button>');
+                '切换</button>');
         }
 
         if (this.options.showColumns) {
-            html.push(sprintf('<div class="keep-open btn-group" title="%s">',
+            html.push(sprintf('<div class="keep-open btn-group" title="%s" >',
                     this.options.formatColumns()),
-                '<button type="button" aria-label="columns" class="btn' +
-                sprintf(' btn-%s', this.options.buttonsClass) +
-                sprintf(' btn-%s', this.options.iconSize) +
+                '<button type="button" aria-label="columns" style="border-left: none;border-radius: 0px;" class="layui-btn layui-btn-primary layui-btn-small"' +
                 ' dropdown-toggle" data-toggle="dropdown">',
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.columns),
-                ' <span class="caret"></span>',
-                '</button>',
+                '列表</button>',
                 '<ul class="dropdown-menu" role="menu">');
 
             $.each(this.columns, function (i, column) {
@@ -1116,8 +1109,8 @@
                 var checked = column.visible ? ' checked="checked"' : '';
 
                 if (column.switchable) {
-                    html.push(sprintf('<li role="menuitem">' +
-                        '<label><input type="checkbox" data-field="%s" value="%s"%s> %s</label>' +
+                    html.push(sprintf('<li  role="menuitem">' +
+                        '<label class="p-left-10"><input type="checkbox" data-field="%s" value="%s"%s> %s</label>' +
                         '</li>', column.field, i, checked, column.title));
                     switchableCount++;
                 }
@@ -1126,7 +1119,7 @@
                 '</div>');
         }
 
-        html.push('</div>');
+        html.push('</div></div>');
 
         // Fix #188: this.showToolbar is for extensions
         if (this.showToolbar || html.length > 2) {

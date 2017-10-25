@@ -29,9 +29,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class shiroRealm extends AuthorizingRealm {
+public class ShiroRealm extends AuthorizingRealm {
 
-	private org.slf4j.Logger log = LoggerFactory.getLogger(shiroRealm.class);
+	private org.slf4j.Logger log = LoggerFactory.getLogger(ShiroRealm.class);
 
 	@Autowired 
 	private SysUserService sysUserService;
@@ -88,13 +88,12 @@ public class shiroRealm extends AuthorizingRealm {
 		if (user.getStatus() == UserConst.ACCOUNT_STATUS_ACTIVATE) {
 			throw new LockedAccountException();
 		}
-		/*UserActive userActive = UserBind.toActive(user);*/
+		UserActive userActive = UserBind.toActive(user);
 
 		Subject subject = SecurityUtils.getSubject();
 		Serializable sessionId = subject.getSession().getId();
 		ShiroSession session = (ShiroSession) sessionDao.doReadSessionWithoutExpire(sessionId);
-		session.setAttribute("userId", user.getId());
-		session.setAttribute("loginName", user.getLoginName());
+		session.setAttribute(UserConst.ACTIVE_USER_KEY, userActive);
 		sessionDao.update(session);
 		return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(),ByteSource.Util.bytes(UserConst.PASSWORD_SALT), getName());
 	}

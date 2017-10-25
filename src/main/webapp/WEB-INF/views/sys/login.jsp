@@ -197,7 +197,12 @@
                 },
                 success: function (data) {
                     if (data.code === '10000') {
-                        location.href = '${path }/user/index.shtml';
+                        if (data.result) {
+                            location.href = data.result;
+                        } else {
+                            location.href = '${path }/user/index.shtml';
+                        }
+
                     } else if (data.code === '20004') {
                         btnLoading.reset($btn);
                         createValidationCode('login', 'code_login');

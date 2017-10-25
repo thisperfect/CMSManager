@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class SystemController extends BaseController {
      */
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = produces)
-	public String login(UserLogin userLogin, String sign, Long timestamp) {
+	public String login(UserLogin userLogin, String sign, Long timestamp, HttpServletRequest request) {
 		logger.info("login.do ====>{}",userLogin.toString());
 		if (StringHelper.isNotEmpty( userLogin.getValidationCode())) {
             String validationCode = StringHelper.toString(RedisUtil.get(StringHelper.toString(getCurrentSessionId())));
@@ -89,6 +90,10 @@ public class SystemController extends BaseController {
             subject.login(token);
             count = 0;
             RedisUtil.delete(userLogin.getUsername());
+            String returnUrl = request.getParameter("returnUrl");
+            if (StringHelper.isNotBlank(returnUrl)) {
+                result.setResult(returnUrl);
+            }
 		} catch (IncorrectCredentialsException ice) {
             count ++ ;
 			logger.info("密码不正确");

@@ -1,4 +1,4 @@
-var active ;
+var  active;
 layui.use([ 'element'], function(){
     var element = layui.element
 
@@ -36,17 +36,19 @@ layui.use([ 'element'], function(){
         alertMessage.autoConfirm('确定退出系统吗?','退出系统',function () {
             window.location.href = '../user/loginOut.shtml';
         });
-    })
+    });
 
 
     //窗体改变大小的时候，内容主体高度随之改变
     $(window).on('resize',function() {
-        var _height =  $(window).height();
-
-        $('div.layui-tab-content').height(_height - 100);
+        var _height =  $(window).height(),
+            _width = $(window).width(),
+            _nav_header_height = $("header.main-header").height(),sidebar_height;
+        console.log(_height)
+        $('div.layui-tab-content').height(_height - _nav_header_height - 55);
         setting.height = _height;
-        setting.width = $(window).width();
-        var sidebar_height = _height - $(".main-header").height();
+        setting.width = _width;
+        sidebar_height = _height - _nav_header_height;
         $('.sidebar').height(sidebar_height);
         $('.slimScrollDiv').height(sidebar_height);
     }).resize();
@@ -68,12 +70,6 @@ layui.use([ 'element'], function(){
         if (e.altKey && e.which == 76) {
             //锁屏
             alert('锁屏')
-        }
-        if (e.which == 27) {
-            var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
-            if (fullscreenElement == null) {
-                $('#FullScreen').html('<i class="fa fa-compress fa-fw"></i>退出全屏')
-            }
         }
     });
 });
@@ -106,7 +102,7 @@ var addContent = function ($this,reset, $content) {
     $.ajax({
         url:_url,
         type:'post',
-        async:false,
+       async:true,
         contentType: "application/json",
         dataType:"html",
         beforeSend: function () {
@@ -129,6 +125,9 @@ var addContent = function ($this,reset, $content) {
         }
     })
 }
+
+
+
 
 /****头部搜索相关事件 开始*******/
 new Vue({
