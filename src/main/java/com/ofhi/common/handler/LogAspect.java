@@ -1,19 +1,20 @@
 package com.ofhi.common.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.ofhi.common.annotation.Log;
 import com.ofhi.common.util.RequestUtil;
+import com.ofhi.common.util.StringHelper;
+import com.ofhi.common.util.key.SnowflakeIdWorker;
 import com.ofhi.modules.cms.sys.entity.pojo.SysLog;
 import com.ofhi.modules.cms.sys.service.SysLogService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 日志记录AOP实现
@@ -41,6 +44,9 @@ public class LogAspect {
 	@Autowired
 	private SysLogService sysLogService;
 
+	//Controller层切点
+	@Pointcut("@annotation(com.ofhi.common.annotation.Log)")
+	public  void controllerAspect() {}
 
 
 	@Before("execution(* *..controller..*.*(..))")
@@ -79,7 +85,7 @@ public class LogAspect {
 			}
 		}
 		endTime = System.currentTimeMillis();
-		_log.debug("doAround>>>result={},耗时：{}", result, endTime - startTime);
+		_log.debug("doAround >>> result={},耗时：{} mm", result, endTime - startTime);
 
 		syslog.setBasePath(RequestUtil.getBasePath(request));
 		syslog.setIp(RequestUtil.getIpAddr(request));
@@ -89,15 +95,46 @@ public class LogAspect {
 		} else {
 			syslog.setParameter(ObjectUtils.toString(request.getParameterMap()));
 		}
+		syslog.setId(new SnowflakeIdWorker(1,11).nextId());
 		syslog.setResult(JSON.toJSONString(result));
 		syslog.setSpendTime((endTime - startTime));
 		syslog.setStartTime(startTime);
 		syslog.setUri(request.getRequestURI());
 		syslog.setUrl(ObjectUtils.toString(request.getRequestURL()));
 		syslog.setUserAgent(request.getHeader("User-Agent"));
-		syslog.setUsername(ObjectUtils.toString(request.getUserPrincipal()));
-		sysLogService.insertNonEmptySysLog(syslog);
+		syslog.setUsername(ObjectUtils.toString(SecurityUtils.getSubject().getPrincipal()));
+		sysLogService.insertSysLog(syslog);
 		return result;
+	}
+
+	/**
+	 * 获取注解中对方法的描述信息 用于Controller层注解
+	 *
+	 * @param joinPoint 切点
+	 * @return 方法描述
+	 * @throws Exception
+	 */
+	private SysLog getControllerMethodDescription(JoinPoint joinPoint)  throws Exception {
+		SysLog sysLog = new SysLog();
+		String targetName = joinPoint.getTarget().getClass().getName();
+		String methodName = joinPoint.getSignature().getName();
+		Object[] arguments = joinPoint.getArgs();
+		Class targetClass = Class.forName(targetName);
+		Method[] methods = targetClass.getMethods();
+		for (Method method : methods) {
+			if (method.getName().equals(methodName)) {
+				Class[] clazzs = method.getParameterTypes();
+				if (clazzs.length == arguments.length) {
+					Log annotation = method.getAnnotation(Log.class);
+					sysLog.setModule(annotation.module());
+					String de = annotation.description();
+					if(StringHelper.isEmpty(de))de="未填写注释";
+					sysLog.setDescription(de);
+					break;
+				}
+			}
+		}
+		return sysLog;
 	}
 
 }

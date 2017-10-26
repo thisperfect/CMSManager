@@ -79,13 +79,15 @@ public class ShiroRealm extends AuthorizingRealm {
 			throw new UnknownAccountException();
 		}
 		SysUser user = users.get(0);
-		if (user == null || user.getStatus() == UserConst.ACCOUNT_STATUS_DEL) {//没有找到该用户
+		//没有找到该用户
+		if (user == null || UserConst.ACCOUNT_STATUS_DEL.equals(user.getStatus())) {
 			throw new UnknownAccountException();
 		}
-		if (user.getStatus() == UserConst.ACCOUNT_STATUS_DISABLED) {//账户被禁用
+
+		if (UserConst.ACCOUNT_STATUS_DISABLED.equals(user.getStatus())) {
 			throw new DisabledAccountException();
 		}
-		if (user.getStatus() == UserConst.ACCOUNT_STATUS_ACTIVATE) {
+		if (UserConst.ACCOUNT_STATUS_ACTIVATE.equals(user.getStatus())) {
 			throw new LockedAccountException();
 		}
 		UserActive userActive = UserBind.toActive(user);

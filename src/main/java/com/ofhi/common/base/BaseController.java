@@ -37,7 +37,7 @@ public  class BaseController {
             InterfaceResult  result = InterfaceResult.getErrorResult();
            if (exception instanceof RequestErrorException) {
         	   RequestErrorException rex = (RequestErrorException)exception;
-            	result = result.getErrorResult(rex.getErrCode(),rex.getErrMsg());
+            	result = InterfaceResult.getErrorResult(rex.getErrCode(),rex.getErrMsg());
             }
             String resultStr = result.toString();
             logger.info("ajax request,result:{}",resultStr);

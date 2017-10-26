@@ -1,11 +1,9 @@
 package com.ofhi.modules.cms.sys.service.impl;
-
+import java.util.List;
 import com.ofhi.modules.cms.sys.dao.SysLogDao;
 import com.ofhi.modules.cms.sys.entity.pojo.SysLog;
 import com.ofhi.modules.cms.sys.service.SysLogService;
-
-import java.util.List;
-public class SysLogServiceImpl implements SysLogService {
+public class SysLogServiceImpl implements SysLogService{
     private SysLogDao sysLogDao;
     @Override
     public long getSysLogRowCount(){
@@ -16,7 +14,7 @@ public class SysLogServiceImpl implements SysLogService {
         return sysLogDao.selectSysLog();
     }
     @Override
-    public SysLog selectSysLogById(Integer id){
+    public SysLog selectSysLogById(Long id){
         return sysLogDao.selectSysLogById(id);
     }
     @Override
@@ -28,7 +26,7 @@ public class SysLogServiceImpl implements SysLogService {
         return sysLogDao.insertNonEmptySysLog(value);
     }
     @Override
-    public int deleteSysLogById(Integer id){
+    public int deleteSysLogById(Long id){
         return sysLogDao.deleteSysLogById(id);
     }
     @Override
@@ -45,6 +43,10 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     public void setSysLogDao(SysLogDao sysLogDao) {
+        this.sysLogDao = sysLogDao;
+    }
+
+}SysLogDao sysLogDao) {
         this.sysLogDao = sysLogDao;
     }
 

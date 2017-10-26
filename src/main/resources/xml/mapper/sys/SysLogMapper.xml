@@ -16,6 +16,8 @@
         <result column="SysLog11" property="permissions" />
         <result column="SysLog12" property="parameter" />
         <result column="SysLog13" property="result" />
+        <result column="SysLog14" property="module" />
+        <result column="SysLog15" property="type" />
     </resultMap>
 
     <sql id="sys_log_Column">
@@ -33,6 +35,8 @@
         ,sys_log.permissions as SysLog11
         ,sys_log.parameter as SysLog12
         ,sys_log.result as SysLog13
+        ,sys_log.module as SysLog14
+        ,sys_log.type as SysLog15
     </sql>
 
     <select id="getSysLogRowCount" resultType="java.lang.Long">
@@ -44,7 +48,7 @@
         from sys_log
     </select> 
 
-    <select id="selectSysLogById" parameterType="java.lang.Integer" resultMap="result_SysLog_Map">
+    <select id="selectSysLogById" parameterType="java.lang.Long" resultMap="result_SysLog_Map">
         select 
             <include refid="sys_log_Column" /> 
         from sys_log
@@ -53,8 +57,8 @@
 
 
     <insert id="insertSysLog" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
-        insert into sys_log(id,description,username,start_time,spend_time,base_path,uri,url,method,user_agent,ip,permissions,parameter,result) 
-        values(#{id},#{description},#{username},#{startTime},#{spendTime},#{basePath},#{uri},#{url},#{method},#{userAgent},#{ip},#{permissions},#{parameter},#{result})
+        insert into sys_log(id,description,username,start_time,spend_time,base_path,uri,url,method,user_agent,ip,permissions,parameter,result,module,type) 
+        values(#{id},#{description},#{username},#{startTime},#{spendTime},#{basePath},#{uri},#{url},#{method},#{userAgent},#{ip},#{permissions},#{parameter},#{result},#{module},#{type})
     </insert>
 
     <insert id="insertNonEmptySysLog" parameterType="com.ofhi.modules.cms.sys.entity.pojo.SysLog">
@@ -74,6 +78,8 @@
             <if test="permissions != null">permissions,</if>
             <if test="parameter != null">parameter,</if>
             <if test="result != null">result,</if>
+            <if test="module != null">module,</if>
+            <if test="type != null">type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null"> #{id},</if>
@@ -90,10 +96,12 @@
             <if test="permissions != null"> #{permissions},</if>
             <if test="parameter != null"> #{parameter},</if>
             <if test="result != null"> #{result},</if>
+            <if test="module != null"> #{module},</if>
+            <if test="type != null"> #{type},</if>
         </trim>
     </insert>
 
-    <delete id="deleteSysLogById" parameterType="java.lang.Integer">
+    <delete id="deleteSysLogById" parameterType="java.lang.Long">
         delete from sys_log
         where id = #{id}
     </delete>
@@ -113,6 +121,8 @@
             ,permissions=#{permissions}
             ,parameter=#{parameter}
             ,result=#{result}
+            ,module=#{module}
+            ,type=#{type}
         where id=#{id}
     </update>
 
@@ -157,6 +167,12 @@
             </if>
             <if test="result != null">
                 result=#{result},
+            </if>
+            <if test="module != null">
+                module=#{module},
+            </if>
+            <if test="type != null">
+                type=#{type},
             </if>
         </set>
         where id=#{id}
