@@ -25,6 +25,11 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<!-- quartz监听器 -->
+	<listener>
+		<listener-class>com.ofhi.common.listener.ScheduleStartListener</listener-class>
+	</listener>
+
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
